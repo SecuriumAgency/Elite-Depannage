@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import {
   Wrench,
   Key,
-  ShieldCheck,
   Clock,
   ThumbsUp,
   Star,
@@ -23,11 +22,6 @@ const SERVICES = [
     icon: Key,
     title: "Serrurerie",
     description: "Porte claquée, serrure bloquée, blindage.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Vitrerie",
-    description: "Bris de glace, mise en sécurité.",
   },
 ];
 
@@ -58,7 +52,7 @@ const TESTIMONIALS = [
   {
     name: "Laurence T.",
     city: "Sète",
-    text: "Vitre brisée sécurisée le soir même. Équipe sérieuse, devis gratuit et clair avant toute intervention.",
+    text: "Chauffe-eau en panne remplacé en urgence un dimanche. Équipe sérieuse, devis gratuit et clair avant toute intervention.",
   },
 ];
 
@@ -105,9 +99,9 @@ const BLOG_POSTS = [
       "Comprendre les certifications A2P (1, 2 ou 3 étoiles) pour choisir une serrure réellement adaptée à votre logement.",
   },
   {
-    title: "Bris de glace : sécuriser son logement en urgence",
+    title: "Porte claquée : les bons réflexes",
     excerpt:
-      "Les étapes essentielles pour sécuriser une vitre brisée en attendant le remplacement définitif.",
+      "Comment réagir face à une porte qui claque sans dégrader la serrure avant l'arrivée du serrurier.",
   },
 ];
 
@@ -202,7 +196,7 @@ export default function Home() {
           Nos Expertises d&apos;Élite
         </motion.h2>
 
-        <div className="mx-auto mt-16 grid max-w-5xl gap-6 px-2 sm:grid-cols-3">
+        <div className="mx-auto mt-16 grid max-w-3xl gap-6 px-2 sm:grid-cols-2">
           {SERVICES.map(({ icon, title, description }, i) => (
             <motion.div
               key={title}
@@ -416,7 +410,6 @@ export default function Home() {
               </option>
               <option value="plomberie">Plomberie</option>
               <option value="serrurerie">Serrurerie</option>
-              <option value="vitrerie">Vitrerie</option>
             </select>
             <button
               type="submit"
