@@ -7,7 +7,7 @@ const NAV_LINKS = [
   { label: "Services", href: "#services" },
   { label: "Notre Expertise", href: "#expertise" },
   { label: "Avis Clients", href: "#avis" },
-  { label: "Zones d'Intervention", href: "#zones" },
+  { label: "Zones d'Intervention", href: "#villes" },
   { label: "Blog Sécurité", href: "#blog" },
 ];
 

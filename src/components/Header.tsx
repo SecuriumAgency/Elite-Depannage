@@ -5,7 +5,7 @@ const NAV_LINKS = [
   { label: "Services", href: "#services" },
   { label: "Notre Expertise", href: "#expertise" },
   { label: "Avis Clients", href: "#avis" },
-  { label: "Zones d'Intervention", href: "#zones" },
+  { label: "Zones d'Intervention", href: "#villes" },
   { label: "Blog Sécurité", href: "#blog" },
 ];
 
@@ -22,18 +22,18 @@ export default function Header() {
           className="hidden lg:flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-6 py-2 backdrop-blur-md"
         >
           {NAV_LINKS.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               className="px-4 py-2 text-sm font-medium text-slate-200 transition-all hover:text-cyan-400 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         <a
-          href="tel:+33400000000"
+          href="tel:0411939674"
           className="hidden sm:inline-flex shrink-0 items-center rounded-full bg-cyan-500 px-5 py-2.5 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]"
         >
           Urgence 30 min

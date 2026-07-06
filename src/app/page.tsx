@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
 import {
   Wrench,
   Key,
@@ -11,6 +13,7 @@ import {
   Droplet,
 } from "lucide-react";
 import ServiceCard3D from "@/components/ServiceCard3D";
+import { slugify } from "@/lib/cities";
 
 const SERVICES = [
   {
@@ -92,16 +95,22 @@ const BLOG_POSTS = [
     title: "Fuite encastrée : que faire ?",
     excerpt:
       "Les bons réflexes avant l'arrivée du plombier pour limiter les dégâts des eaux et préserver vos murs.",
+    image:
+      "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=80&w=800&auto=format&fit=crop",
   },
   {
     title: "Serrure A2P : le guide complet",
     excerpt:
       "Comprendre les certifications A2P (1, 2 ou 3 étoiles) pour choisir une serrure réellement adaptée à votre logement.",
+    image:
+      "https://images.unsplash.com/photo-1622372738946-62e02505feb3?q=80&w=800&auto=format&fit=crop",
   },
   {
     title: "Porte claquée : les bons réflexes",
     excerpt:
       "Comment réagir face à une porte qui claque sans dégrader la serrure avant l'arrivée du serrurier.",
+    image:
+      "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=800&auto=format&fit=crop",
   },
 ];
 
@@ -153,7 +162,7 @@ export default function Home() {
           </motion.p>
 
           <motion.a
-            href="tel:+33400000000"
+            href="tel:0411939674"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             whileHover={{ scale: 1.05 }}
@@ -296,7 +305,7 @@ export default function Home() {
       </section>
 
       {/* 6. MAILLAGE TERRITORIAL SEO */}
-      <section id="zones" className="relative px-6 py-24">
+      <section id="villes" className="relative px-6 py-24">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -319,9 +328,13 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.4, delay: (i % 7) * 0.05, ease: "easeOut" }}
-              className="cursor-pointer rounded-xl border border-white/5 bg-slate-900/40 py-2 text-center text-sm text-slate-300 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-cyan-500/50 hover:bg-cyan-900/20 hover:text-white"
             >
-              {city}
+              <Link
+                href={`/plombier/${slugify(city)}`}
+                className="block rounded-xl border border-white/10 bg-slate-900/40 py-2 text-center text-sm text-slate-300 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400 hover:bg-cyan-900/30 hover:text-white hover:shadow-[0_0_15px_rgba(34,211,238,0.5)]"
+              >
+                {city}
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -349,7 +362,14 @@ export default function Home() {
               transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
               className="group overflow-hidden rounded-2xl border border-white/10 bg-slate-900/50 backdrop-blur-xl transition-transform duration-300 hover:-translate-y-2"
             >
-              <div className="h-40 w-full bg-gradient-to-br from-slate-800 to-slate-900" />
+              <div className="relative h-40 w-full overflow-hidden">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
               <div className="p-6">
                 <h3 className="text-lg font-bold text-slate-50">{post.title}</h3>
                 <p className="mt-2 text-sm text-slate-400">{post.excerpt}</p>
@@ -416,7 +436,7 @@ export default function Home() {
               className="sm:col-span-2 mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-cyan-500 px-8 py-3.5 text-base font-bold text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(6,182,212,0.8)]"
             >
               <Wrench className="h-4 w-4" />
-              Demander un rappel
+              Demander un rappel — 04 11 93 96 74
             </button>
           </form>
 
