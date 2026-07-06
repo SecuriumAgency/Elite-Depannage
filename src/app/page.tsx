@@ -11,7 +11,6 @@ import {
   Phone,
   Droplet,
 } from "lucide-react";
-import Logo3D from "@/components/Logo3D";
 import ServiceCard3D from "@/components/ServiceCard3D";
 
 const SERVICES = [
@@ -63,6 +62,55 @@ const TESTIMONIALS = [
   },
 ];
 
+const CITIES = [
+  "Montpellier",
+  "Béziers",
+  "Sète",
+  "Agde",
+  "Lunel",
+  "Frontignan",
+  "Castelnau-le-Lez",
+  "Lattes",
+  "Mauguio",
+  "Mèze",
+  "Villeneuve-lès-Maguelone",
+  "Pérols",
+  "Saint-Jean-de-Védas",
+  "La Grande-Motte",
+  "Baillargues",
+  "Pignan",
+  "Palavas-les-Flots",
+  "Fabrègues",
+  "Vendargues",
+  "Clapiers",
+  "Jacou",
+  "Le Crès",
+  "Saint-Gély-du-Fesc",
+  "Prades-le-Lez",
+  "Cournonterral",
+  "Gigean",
+  "Balaruc-les-Bains",
+  "Pézenas",
+];
+
+const BLOG_POSTS = [
+  {
+    title: "Fuite encastrée : que faire ?",
+    excerpt:
+      "Les bons réflexes avant l'arrivée du plombier pour limiter les dégâts des eaux et préserver vos murs.",
+  },
+  {
+    title: "Serrure A2P : le guide complet",
+    excerpt:
+      "Comprendre les certifications A2P (1, 2 ou 3 étoiles) pour choisir une serrure réellement adaptée à votre logement.",
+  },
+  {
+    title: "Bris de glace : sécuriser son logement en urgence",
+    excerpt:
+      "Les étapes essentielles pour sécuriser une vitre brisée en attendant le remplacement définitif.",
+  },
+];
+
 export default function Home() {
   return (
     <main className="flex-1">
@@ -82,10 +130,6 @@ export default function Home() {
         />
 
         <div className="relative z-10 flex flex-col items-center text-center pt-24">
-          <div className="scale-150 md:scale-200 mb-12 relative z-10">
-            <Logo3D size="lg" />
-          </div>
-
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -147,7 +191,7 @@ export default function Home() {
       </section>
 
       {/* 3. SERVICES */}
-      <section className="relative px-6 py-24">
+      <section id="services" className="relative px-6 py-24">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -174,7 +218,7 @@ export default function Home() {
       </section>
 
       {/* 4. EXPERTISE & VALEURS */}
-      <section className="relative px-6 py-24">
+      <section id="expertise" className="relative px-6 py-24">
         <div className="mx-auto grid max-w-5xl gap-16 md:grid-cols-2 md:items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -219,7 +263,7 @@ export default function Home() {
       </section>
 
       {/* 5. AVIS CLIENTS */}
-      <section className="relative px-6 py-24">
+      <section id="avis" className="relative px-6 py-24">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -257,7 +301,77 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. CONTACT / LEAD GEN */}
+      {/* 6. MAILLAGE TERRITORIAL SEO */}
+      <section id="zones" className="relative px-6 py-24">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mx-auto max-w-2xl text-center font-black text-3xl sm:text-4xl bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-200 to-slate-500"
+        >
+          Intervention Rapide dans l&apos;Hérault (34)
+        </motion.h2>
+        <p className="mx-auto mt-4 max-w-xl text-center text-slate-400">
+          Nos artisans plombiers et serruriers d&apos;élite se déplacent en 30 minutes
+          dans toute la métropole de Montpellier et ses environs.
+        </p>
+
+        <div className="mx-auto mt-14 grid max-w-6xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
+          {CITIES.map((city, i) => (
+            <motion.div
+              key={city}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.4, delay: (i % 7) * 0.05, ease: "easeOut" }}
+              className="cursor-pointer rounded-xl border border-white/5 bg-slate-900/40 py-2 text-center text-sm text-slate-300 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-cyan-500/50 hover:bg-cyan-900/20 hover:text-white"
+            >
+              {city}
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* 7. BLOG SEO */}
+      <section id="blog" className="relative px-6 py-24">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mx-auto max-w-2xl text-center font-black text-3xl sm:text-4xl bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-200 to-slate-500"
+        >
+          Conseils &amp; Actualités
+        </motion.h2>
+
+        <div className="mx-auto mt-16 grid max-w-5xl gap-6 sm:grid-cols-3">
+          {BLOG_POSTS.map((post, i) => (
+            <motion.article
+              key={post.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+              className="group overflow-hidden rounded-2xl border border-white/10 bg-slate-900/50 backdrop-blur-xl transition-transform duration-300 hover:-translate-y-2"
+            >
+              <div className="h-40 w-full bg-gradient-to-br from-slate-800 to-slate-900" />
+              <div className="p-6">
+                <h3 className="text-lg font-bold text-slate-50">{post.title}</h3>
+                <p className="mt-2 text-sm text-slate-400">{post.excerpt}</p>
+                <a
+                  href="#"
+                  className="mt-4 inline-flex items-center text-sm font-semibold text-cyan-400 transition-all hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+                >
+                  Lire l&apos;article →
+                </a>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </section>
+
+      {/* 8. CONTACT / LEAD GEN */}
       <section className="relative overflow-hidden px-6 py-24">
         <div
           aria-hidden
