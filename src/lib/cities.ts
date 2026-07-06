@@ -27,6 +27,46 @@ export const INTERVENTION_CITIES = [
   { name: "Jacou", postalCode: "34830" },
 ].map((city) => ({ ...city, slug: slugify(city.name) }));
 
+/** The 28 cities covered by the local SEO grid + statically generated pages. */
+export const SEO_CITIES = [
+  "Montpellier",
+  "Béziers",
+  "Sète",
+  "Agde",
+  "Lunel",
+  "Frontignan",
+  "Castelnau-le-Lez",
+  "Lattes",
+  "Mauguio",
+  "Mèze",
+  "Villeneuve-lès-Maguelone",
+  "Pérols",
+  "Saint-Jean-de-Védas",
+  "La Grande-Motte",
+  "Baillargues",
+  "Pignan",
+  "Palavas-les-Flots",
+  "Fabrègues",
+  "Vendargues",
+  "Clapiers",
+  "Jacou",
+  "Le Crès",
+  "Saint-Gély-du-Fesc",
+  "Prades-le-Lez",
+  "Cournonterral",
+  "Gigean",
+  "Balaruc-les-Bains",
+  "Pézenas",
+].map((name) => ({ name, slug: slugify(name) }));
+
+/** Union of every known city (SEO grid ∪ footer list), deduped by slug. */
+const ALL_CITIES = [...INTERVENTION_CITIES, ...SEO_CITIES].reduce<
+  Array<{ name: string; slug: string; postalCode?: string }>
+>((acc, city) => {
+  if (!acc.some((existing) => existing.slug === city.slug)) acc.push(city);
+  return acc;
+}, []);
+
 export const METIERS = [
   { slug: "plombier", label: "Plombier" },
   { slug: "serrurier", label: "Serrurier" },
@@ -35,7 +75,7 @@ export const METIERS = [
 export type Metier = (typeof METIERS)[number]["slug"];
 
 export function getCityBySlug(slug: string) {
-  return INTERVENTION_CITIES.find((city) => city.slug === slug);
+  return ALL_CITIES.find((city) => city.slug === slug);
 }
 
 export function getCityLabel(slug: string) {

@@ -13,7 +13,7 @@ import {
   Droplet,
 } from "lucide-react";
 import ServiceCard3D from "@/components/ServiceCard3D";
-import { slugify } from "@/lib/cities";
+import { SEO_CITIES } from "@/lib/cities";
 
 const SERVICES = [
   {
@@ -57,37 +57,6 @@ const TESTIMONIALS = [
     city: "Sète",
     text: "Chauffe-eau en panne remplacé en urgence un dimanche. Équipe sérieuse, devis gratuit et clair avant toute intervention.",
   },
-];
-
-const CITIES = [
-  "Montpellier",
-  "Béziers",
-  "Sète",
-  "Agde",
-  "Lunel",
-  "Frontignan",
-  "Castelnau-le-Lez",
-  "Lattes",
-  "Mauguio",
-  "Mèze",
-  "Villeneuve-lès-Maguelone",
-  "Pérols",
-  "Saint-Jean-de-Védas",
-  "La Grande-Motte",
-  "Baillargues",
-  "Pignan",
-  "Palavas-les-Flots",
-  "Fabrègues",
-  "Vendargues",
-  "Clapiers",
-  "Jacou",
-  "Le Crès",
-  "Saint-Gély-du-Fesc",
-  "Prades-le-Lez",
-  "Cournonterral",
-  "Gigean",
-  "Balaruc-les-Bains",
-  "Pézenas",
 ];
 
 const BLOG_POSTS = [
@@ -146,7 +115,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-            className="text-white font-black text-5xl md:text-7xl tracking-tight drop-shadow-[0_0_20px_rgba(34,211,238,0.5)] max-w-4xl"
+            className="text-white font-black text-4xl md:text-6xl lg:text-8xl tracking-tight drop-shadow-[0_0_20px_rgba(34,211,238,0.5)] max-w-4xl"
           >
             Intervention d&apos;Urgence dans l&apos;Hérault
           </motion.h1>
@@ -321,19 +290,19 @@ export default function Home() {
         </p>
 
         <div className="mx-auto mt-14 grid max-w-6xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
-          {CITIES.map((city, i) => (
+          {SEO_CITIES.map((city, i) => (
             <motion.div
-              key={city}
+              key={city.slug}
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.4, delay: (i % 7) * 0.05, ease: "easeOut" }}
             >
               <Link
-                href={`/plombier/${slugify(city)}`}
+                href={`/plombier/${city.slug}`}
                 className="block rounded-xl border border-white/10 bg-slate-900/40 py-2 text-center text-sm text-slate-300 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400 hover:bg-cyan-900/30 hover:text-white hover:shadow-[0_0_15px_rgba(34,211,238,0.5)]"
               >
-                {city}
+                {city.name}
               </Link>
             </motion.div>
           ))}

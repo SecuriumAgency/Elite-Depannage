@@ -12,7 +12,6 @@ export default function Logo3D({
   size?: "md" | "lg";
 }) {
   const [isHovered, setIsHovered] = useState(false);
-  const iconPx = size === "lg" ? 88 : 44;
 
   return (
     <div
@@ -22,9 +21,10 @@ export default function Logo3D({
     >
       <svg
         viewBox="0 0 200 200"
-        width={iconPx}
-        height={iconPx}
-        className="shrink-0 overflow-visible"
+        className={cn(
+          "h-auto shrink-0 overflow-visible",
+          size === "lg" ? "w-14 md:w-24" : "w-10 md:w-11"
+        )}
       >
         <defs>
           <linearGradient id="chromePipeGrad" x1="0%" y1="100%" x2="100%" y2="0%">
