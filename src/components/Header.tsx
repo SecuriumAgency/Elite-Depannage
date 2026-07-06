@@ -3,7 +3,7 @@ import Logo3D from "@/components/Logo3D";
 
 export default function Header() {
   return (
-    <header className="fixed top-0 inset-x-0 z-50 border-b border-white/10 bg-slate-950/60 backdrop-blur-md">
+    <header className="fixed top-0 inset-x-0 z-50 border-b border-cyan-500/20 bg-slate-950/60 backdrop-blur-xl">
       <div className="mx-auto max-w-6xl px-6 h-20 flex items-center justify-between">
         <Link href="/" aria-label="Élite Dépannage - Accueil">
           <Logo3D />
