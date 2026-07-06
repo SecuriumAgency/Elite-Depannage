@@ -2,57 +2,16 @@
 
 import { use } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronRight, MapPin, Phone } from "lucide-react";
 import {
   INTERVENTION_CITIES,
   getCityLabel,
   getMetierLabel,
+  type Metier,
 } from "@/lib/cities";
-
-const SECOND_SECTION_TITLE: Record<string, string> = {
-  plombier: "Recherche de fuite / Dépannage avancé",
-  serrurier: "Ouverture de porte / Dépannage avancé",
-};
-
-const SECOND_SECTION_TEXT: Record<string, string[]> = {
-  plombier: [
-    "Nos plombiers utilisent des caméras thermiques et des détecteurs acoustiques pour localiser une fuite encastrée sans casser vos murs ou vos sols.",
-    "Une fois la fuite localisée avec précision, nous établissons un devis détaillé avant toute ouverture, pour une intervention ciblée et sans surprise.",
-    "Canalisations bouchées, chauffe-eau en panne, robinetterie défectueuse : nous intervenons sur toutes les urgences de plomberie avancée.",
-  ],
-  serrurier: [
-    "Nos serruriers maîtrisent les techniques d'ouverture de porte sans dégât, y compris sur les serrures multipoints et les blindages récents.",
-    "Avant toute intervention destructive, un diagnostic rapide permet de choisir la méthode la plus adaptée et la moins coûteuse pour vous.",
-    "Porte claquée, clé cassée dans le cylindre, serrure grippée : nous traitons chaque urgence avec le même souci de rapidité et de propreté.",
-  ],
-};
-
-const FIRST_SECTION_TEXT: Record<string, string[]> = {
-  plombier: [
-    "Une fuite d'eau, une canalisation bouchée ou un chauffe-eau en panne ne préviennent jamais. Notre équipe de plombiers certifiés intervient en 30 minutes pour limiter les dégâts.",
-    "Chaque intervention commence par un diagnostic clair et un devis transparent, validé avant tout travaux : aucune surprise sur la facture finale.",
-    "Nous n'installons que du matériel de marques reconnues, garantissant fiabilité et durabilité à chaque réparation ou installation.",
-  ],
-  serrurier: [
-    "Porte claquée, serrure bloquée ou effraction : nos serruriers d'élite se déplacent en 30 minutes pour sécuriser votre logement ou local professionnel.",
-    "Chaque ouverture de porte est réalisée avec la méthode la moins invasive possible, et un devis clair vous est présenté avant toute intervention.",
-    "Nous posons uniquement des serrures certifiées A2P pour garantir un niveau de sécurité optimal après notre passage.",
-  ],
-};
-
-const THIRD_SECTION_TEXT: Record<string, string[]> = {
-  plombier: [
-    "Rénovation de salle de bains, remplacement de chauffe-eau, installation de robinetterie : nos artisans réalisent vos projets de plomberie avec précision.",
-    "Chaque installation est réalisée dans le respect des normes en vigueur, avec des matériaux durables adaptés à votre logement.",
-    "Un devis gratuit est établi avant toute installation pour vous garantir une visibilité totale sur le coût des travaux.",
-  ],
-  serrurier: [
-    "Blindage de porte, installation de serrure A2P, pose de verrou multipoints : nos serruriers renforcent durablement la sécurité de votre logement.",
-    "Chaque installation est adaptée à la configuration de votre porte pour garantir une protection optimale contre les tentatives d'effraction.",
-    "Un devis gratuit et détaillé est systématiquement proposé avant toute installation professionnelle.",
-  ],
-};
+import { generateCityContent, getCityImage, SECTIONS } from "@/lib/seo-content";
 
 export default function VillePage({
   params,
@@ -61,15 +20,12 @@ export default function VillePage({
 }) {
   const { metier, ville } = use(params);
 
+  const safeMetier: Metier = metier === "serrurier" ? "serrurier" : "plombier";
   const metierLabel = getMetierLabel(metier);
   const villeLabel = getCityLabel(ville);
 
-  const secondTitle =
-    SECOND_SECTION_TITLE[metier] ?? "Dépannage / Intervention avancée";
-  const firstTexts = FIRST_SECTION_TEXT[metier] ?? FIRST_SECTION_TEXT.plombier;
-  const secondTexts =
-    SECOND_SECTION_TEXT[metier] ?? SECOND_SECTION_TEXT.plombier;
-  const thirdTexts = THIRD_SECTION_TEXT[metier] ?? THIRD_SECTION_TEXT.plombier;
+  const content = generateCityContent(villeLabel, safeMetier);
+  const mapsQuery = encodeURIComponent(`${metierLabel} ${villeLabel}`);
 
   return (
     <main className="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-24 lg:flex-row">
@@ -84,9 +40,7 @@ export default function VillePage({
             Accueil
           </Link>
           <ChevronRight className="h-3.5 w-3.5" />
-          <span className="text-slate-200">
-            {metierLabel} Hérault (34)
-          </span>
+          <span className="text-slate-200">{metierLabel} Hérault (34)</span>
         </nav>
 
         {/* H1 */}
@@ -99,62 +53,30 @@ export default function VillePage({
           {metierLabel} {villeLabel} (34)
         </motion.h1>
 
-        {/* SECTION 1 */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mt-16"
-        >
-          <div className="h-64 w-full rounded-3xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.1)]" />
-          <h2 className="mt-8 text-2xl font-bold text-white sm:text-3xl">
-            Dépannage {metierLabel.toLowerCase()} à {villeLabel}
-          </h2>
-          <div className="mt-4 space-y-4 text-slate-400">
-            {firstTexts.map((text) => (
-              <p key={text}>{text}</p>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* SECTION 2 */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mt-20"
-        >
-          <div className="h-64 w-full rounded-3xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.1)]" />
-          <h2 className="mt-8 text-2xl font-bold text-white sm:text-3xl">
-            {secondTitle}
-          </h2>
-          <div className="mt-4 space-y-4 text-slate-400">
-            {secondTexts.map((text) => (
-              <p key={text}>{text}</p>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* SECTION 3 */}
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mt-20"
-        >
-          <div className="h-64 w-full rounded-3xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.1)]" />
-          <h2 className="mt-8 text-2xl font-bold text-white sm:text-3xl">
-            Installation professionnelle à {villeLabel}
-          </h2>
-          <div className="mt-4 space-y-4 text-slate-400">
-            {thirdTexts.map((text) => (
-              <p key={text}>{text}</p>
-            ))}
-          </div>
-        </motion.section>
+        {SECTIONS.map((section, i) => (
+          <motion.section
+            key={section}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className={i === 0 ? "mt-16" : "mt-20"}
+          >
+            <div className="relative h-64 w-full overflow-hidden rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+              <Image
+                src={getCityImage(villeLabel, safeMetier, i)}
+                alt={content[section].title}
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+            </div>
+            <h2 className="mt-8 text-2xl font-bold text-white sm:text-3xl">
+              {content[section].title}
+            </h2>
+            <p className="mt-4 text-slate-400">{content[section].paragraph}</p>
+          </motion.section>
+        ))}
       </div>
 
       {/* SIDEBAR STICKY */}
@@ -166,35 +88,73 @@ export default function VillePage({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="rounded-2xl border border-cyan-500/50 bg-cyan-950/40 p-6 backdrop-blur-xl"
+            className="rounded-2xl border border-cyan-400/40 bg-gradient-to-br from-cyan-600 via-blue-600 to-blue-800 p-6 shadow-[0_0_40px_rgba(34,211,238,0.3)]"
           >
             <h3 className="text-lg font-bold text-white">
               Besoin d&apos;un {metierLabel.toLowerCase()} à {villeLabel} ?
             </h3>
             <a
-              href="tel:+33411939674"
-              className="mt-4 flex items-center gap-2 text-2xl font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.8)] transition-all hover:scale-105"
+              href="tel:0411939674"
+              className="mt-4 flex items-center gap-2 text-2xl font-black text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] transition-all hover:scale-105"
             >
               <Phone className="h-6 w-6" />
               04 11 93 96 74
             </a>
-            <p className="mt-3 text-sm font-semibold uppercase tracking-widest text-cyan-300/80">
+            <p className="mt-3 text-sm font-semibold uppercase tracking-widest text-cyan-100/90">
               Disponible 24h/7jours
             </p>
           </motion.div>
 
-          {/* MAP CARD */}
+          {/* MAP 3D IMMERSIF */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="flex h-56 flex-col items-center justify-center gap-2 rounded-2xl border border-cyan-500/20 bg-slate-900 shadow-[0_0_30px_rgba(34,211,238,0.12)]"
+            className="relative h-56 overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950 shadow-[0_0_30px_rgba(34,211,238,0.12)]"
           >
-            <MapPin className="h-8 w-8 text-cyan-400" />
-            <p className="text-sm font-semibold text-slate-300">
-              Zone d&apos;intervention : {villeLabel}
+            <div
+              aria-hidden
+              className="absolute inset-0 opacity-60"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(34,211,238,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.15) 1px, transparent 1px)",
+                backgroundSize: "24px 24px",
+              }}
+            />
+
+            <p className="absolute top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-cyan-400/30 bg-slate-900/70 px-3 py-1 text-xs font-semibold text-cyan-300 backdrop-blur-sm">
+              Intervention en cours à {villeLabel}
             </p>
+
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="h-3 w-3 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.9)]" />
+              <motion.span
+                aria-hidden
+                animate={{ scale: [1, 2, 2], opacity: [1, 0, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+                className="absolute h-3 w-3 rounded-full bg-cyan-400"
+              />
+              <motion.span
+                aria-hidden
+                animate={{ scale: [1, 2.5, 2.5], opacity: [0.6, 0, 0] }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeOut",
+                  delay: 0.6,
+                }}
+                className="absolute h-3 w-3 rounded-full bg-cyan-400"
+              />
+            </div>
+
+            <a
+              href={`https://www.google.com/maps/search/${mapsQuery}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Ouvrir ${metierLabel} ${villeLabel} dans Google Maps`}
+              className="absolute inset-0"
+            />
           </motion.div>
 
           {/* LINKS CARD */}
@@ -217,7 +177,10 @@ export default function VillePage({
                     transition={{ duration: 0.2, ease: "easeOut" }}
                     className="flex items-center justify-between rounded-lg px-2 py-1.5 text-sm text-slate-400 transition-colors hover:text-cyan-400"
                   >
-                    <span>{city.name}</span>
+                    <span className="flex items-center gap-1.5">
+                      <MapPin className="h-3.5 w-3.5" />
+                      {city.name}
+                    </span>
                     <span className="text-xs text-slate-500">
                       ({city.postalCode})
                     </span>
