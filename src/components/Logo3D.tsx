@@ -4,8 +4,15 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-export default function Logo3D({ className }: { className?: string }) {
+export default function Logo3D({
+  className,
+  size = "md",
+}: {
+  className?: string;
+  size?: "md" | "lg";
+}) {
   const [isHovered, setIsHovered] = useState(false);
+  const iconPx = size === "lg" ? 88 : 44;
 
   return (
     <div
@@ -15,8 +22,8 @@ export default function Logo3D({ className }: { className?: string }) {
     >
       <svg
         viewBox="0 0 200 200"
-        width="44"
-        height="44"
+        width={iconPx}
+        height={iconPx}
         className="shrink-0 overflow-visible"
       >
         <defs>
@@ -123,10 +130,20 @@ export default function Logo3D({ className }: { className?: string }) {
       </svg>
 
       <div className="flex flex-col leading-none">
-        <span className="font-black tracking-tight text-xl bg-clip-text text-transparent bg-gradient-to-br from-white to-cyan-500">
+        <span
+          className={cn(
+            "font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-white to-cyan-500",
+            size === "lg" ? "text-3xl md:text-4xl" : "text-xl"
+          )}
+        >
           ÉLITE DÉPANNAGE
         </span>
-        <span className="text-[10px] font-semibold tracking-[0.2em] text-cyan-400/70 mt-1">
+        <span
+          className={cn(
+            "font-semibold tracking-[0.2em] text-cyan-400/70 mt-1",
+            size === "lg" ? "text-xs md:text-sm" : "text-[10px]"
+          )}
+        >
           HAUTE ARTISANERIE 3D
         </span>
       </div>

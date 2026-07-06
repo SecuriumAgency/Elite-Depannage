@@ -44,7 +44,7 @@ export default function ServiceCard3D({
       style={{ rotateX, rotateY, transformPerspective: 800 }}
       whileHover={{ scale: 1.02 }}
       transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 p-6 backdrop-blur-2xl transition-colors hover:border-cyan-500/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)]"
+      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 p-6 backdrop-blur-2xl transition-colors hover:border-cyan-400/50 hover:drop-shadow-[0_0_25px_rgba(34,211,238,0.35)]"
     >
       <motion.div
         aria-hidden
