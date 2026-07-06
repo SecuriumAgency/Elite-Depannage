@@ -49,16 +49,12 @@ export default async function VillePage({
     image: getCityImage(villeLabel, safeMetier, i),
   }));
 
-  const mapsLabel = `${metierLabel} ${villeLabel}`;
-
   return (
     <CityViewClient
       metier={metier}
       metierLabel={metierLabel}
       villeLabel={villeLabel}
       sections={sections}
-      mapsQuery={encodeURIComponent(mapsLabel)}
-      mapsLabel={mapsLabel}
     />
   );
 }

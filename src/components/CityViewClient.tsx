@@ -27,15 +27,11 @@ export default function CityViewClient({
   metierLabel,
   villeLabel,
   sections,
-  mapsQuery,
-  mapsLabel,
 }: {
   metier: string;
   metierLabel: string;
   villeLabel: string;
   sections: CitySectionView[];
-  mapsQuery: string;
-  mapsLabel: string;
 }) {
   return (
     <main className="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-24 lg:flex-row">
@@ -116,11 +112,7 @@ export default function CityViewClient({
           </motion.div>
 
           {/* MAP 3D IMMERSIF (client-only, code-split) */}
-          <CityMap3D
-            villeLabel={villeLabel}
-            mapsQuery={mapsQuery}
-            mapsLabel={mapsLabel}
-          />
+          <CityMap3D villeLabel={villeLabel} />
 
           {/* LINKS CARD */}
           <motion.div

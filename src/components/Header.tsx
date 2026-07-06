@@ -14,7 +14,7 @@ export default function Header() {
     <header className="fixed top-0 inset-x-0 z-50 border-b border-cyan-500/30 bg-slate-900/40 backdrop-blur-3xl shadow-[0_10px_40px_rgba(6,182,212,0.15)]">
       <div className="mx-auto max-w-6xl px-6 h-24 flex items-center justify-between gap-6">
         <Link href="/" aria-label="Élite Dépannage - Accueil" className="shrink-0">
-          <Logo3D size="lg" />
+          <Logo3D size="lg" showText={false} />
         </Link>
 
         <nav

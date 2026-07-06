@@ -7,9 +7,11 @@ import { cn } from "@/lib/utils";
 export default function Logo3D({
   className,
   size = "md",
+  showText = true,
 }: {
   className?: string;
   size?: "md" | "lg";
+  showText?: boolean;
 }) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -129,24 +131,26 @@ export default function Logo3D({
         </motion.g>
       </svg>
 
-      <div className="flex flex-col leading-none">
-        <span
-          className={cn(
-            "font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-white to-cyan-500",
-            size === "lg" ? "text-3xl md:text-4xl" : "text-xl"
-          )}
-        >
-          ÉLITE DÉPANNAGE
-        </span>
-        <span
-          className={cn(
-            "font-semibold tracking-[0.2em] text-cyan-400/70 mt-1",
-            size === "lg" ? "text-xs md:text-sm" : "text-[10px]"
-          )}
-        >
-          HAUTE ARTISANERIE 3D
-        </span>
-      </div>
+      {showText && (
+        <div className="flex flex-col leading-none">
+          <span
+            className={cn(
+              "font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-white to-cyan-500",
+              size === "lg" ? "text-3xl md:text-4xl" : "text-xl"
+            )}
+          >
+            ÉLITE DÉPANNAGE
+          </span>
+          <span
+            className={cn(
+              "font-semibold tracking-[0.2em] text-cyan-400/70 mt-1",
+              size === "lg" ? "text-xs md:text-sm" : "text-[10px]"
+            )}
+          >
+            HAUTE ARTISANERIE 3D
+          </span>
+        </div>
+      )}
     </div>
   );
 }

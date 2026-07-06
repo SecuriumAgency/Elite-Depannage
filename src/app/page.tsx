@@ -329,26 +329,27 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-slate-900/50 backdrop-blur-xl transition-transform duration-300 hover:-translate-y-2"
             >
-              <div className="relative h-40 w-full overflow-hidden">
-                <Image
-                  src={post.image}
-                  alt={post.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-slate-50">{post.title}</h3>
-                <p className="mt-2 text-sm text-slate-400">{post.excerpt}</p>
-                <a
-                  href="#"
-                  className="mt-4 inline-flex items-center text-sm font-semibold text-cyan-400 transition-all hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]"
-                >
-                  Lire l&apos;article →
-                </a>
-              </div>
+              <Link
+                href="#"
+                className="group block cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-900/50 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:ring-2 hover:ring-cyan-400"
+              >
+                <div className="relative h-40 w-full overflow-hidden">
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-lg font-bold text-slate-50">{post.title}</h3>
+                  <p className="mt-2 text-sm text-slate-400">{post.excerpt}</p>
+                  <span className="mt-4 inline-flex items-center text-sm font-semibold text-cyan-400 transition-all group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]">
+                    Lire l&apos;article →
+                  </span>
+                </div>
+              </Link>
             </motion.article>
           ))}
         </div>
