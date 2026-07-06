@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import ServiceCard3D from "@/components/ServiceCard3D";
 import { SEO_CITIES } from "@/lib/cities";
+import { BLOG_POSTS } from "@/lib/blog-content";
 
 const SERVICES = [
   {
@@ -56,30 +57,6 @@ const TESTIMONIALS = [
     name: "Laurence T.",
     city: "Sète",
     text: "Chauffe-eau en panne remplacé en urgence un dimanche. Équipe sérieuse, devis gratuit et clair avant toute intervention.",
-  },
-];
-
-const BLOG_POSTS = [
-  {
-    title: "Fuite encastrée : que faire ?",
-    excerpt:
-      "Les bons réflexes avant l'arrivée du plombier pour limiter les dégâts des eaux et préserver vos murs.",
-    image:
-      "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    title: "Serrure A2P : le guide complet",
-    excerpt:
-      "Comprendre les certifications A2P (1, 2 ou 3 étoiles) pour choisir une serrure réellement adaptée à votre logement.",
-    image:
-      "https://images.unsplash.com/photo-1622372738946-62e02505feb3?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    title: "Porte claquée : les bons réflexes",
-    excerpt:
-      "Comment réagir face à une porte qui claque sans dégrader la serrure avant l'arrivée du serrurier.",
-    image:
-      "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=800&auto=format&fit=crop",
   },
 ];
 
@@ -324,14 +301,14 @@ export default function Home() {
         <div className="mx-auto mt-16 grid max-w-5xl gap-6 sm:grid-cols-3">
           {BLOG_POSTS.map((post, i) => (
             <motion.article
-              key={post.title}
+              key={post.slug}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
             >
               <Link
-                href="#"
+                href={`/blog/${post.slug}`}
                 className="group block cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-900/50 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:ring-2 hover:ring-cyan-400"
               >
                 <div className="relative h-40 w-full overflow-hidden">

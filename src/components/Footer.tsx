@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Phone, MapPin } from "lucide-react";
 import Logo3D from "@/components/Logo3D";
-import { INTERVENTION_CITIES } from "@/lib/cities";
+import { SEO_CITIES } from "@/lib/cities";
+import { LEGAL_PAGES } from "@/lib/legal-content";
 
 const NAV_LINKS = [
   { label: "Services", href: "#services" },
@@ -21,7 +22,12 @@ export default function Footer() {
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* INFOS */}
           <div>
-            <Logo3D size="md" />
+            <div className="flex items-center gap-3">
+              <Logo3D size="md" />
+              <span className="text-xl font-black text-white tracking-wide uppercase">
+                Élite Dépannage 34
+              </span>
+            </div>
             <p className="mt-4 text-sm text-slate-400">
               Plombiers et serruriers d&apos;élite dans l&apos;Hérault (34). Intervention
               d&apos;urgence en 30 minutes, 7j/7, devis clair avant travaux.
@@ -44,7 +50,7 @@ export default function Footer() {
               Plombier Hérault (34)
             </h3>
             <ul className="mt-5 space-y-3">
-              {INTERVENTION_CITIES.map((city) => (
+              {SEO_CITIES.map((city) => (
                 <li key={`plombier-${city.slug}`}>
                   <Link href={`/plombier/${city.slug}`} className={linkClass}>
                     Plombier {city.name}
@@ -60,7 +66,7 @@ export default function Footer() {
               Serrurier Hérault (34)
             </h3>
             <ul className="mt-5 space-y-3">
-              {INTERVENTION_CITIES.map((city) => (
+              {SEO_CITIES.map((city) => (
                 <li key={`serrurier-${city.slug}`}>
                   <Link href={`/serrurier/${city.slug}`} className={linkClass}>
                     Serrurier {city.name}
@@ -87,9 +93,18 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-slate-500 sm:flex-row">
-          <p>© {new Date().getFullYear()} Élite Dépannage 34. Tous droits réservés.</p>
-          <p>Artisans certifiés — Devis gratuit avant travaux</p>
+        <div className="mt-16 flex flex-col items-center justify-center gap-4 border-t border-white/10 pt-8 text-xs text-slate-500">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            <p>© {new Date().getFullYear()} Élite Dépannage 34. Tous droits réservés.</p>
+            <p>Artisans certifiés — Devis gratuit avant travaux</p>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            {LEGAL_PAGES.map((page) => (
+              <Link key={page.slug} href={`/legal/${page.slug}`} className="hover:text-cyan-400">
+                {page.title}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
