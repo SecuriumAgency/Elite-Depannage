@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Phone } from "lucide-react";
 import Logo3D from "@/components/Logo3D";
 
 const NAV_LINKS = [
@@ -11,8 +12,8 @@ const NAV_LINKS = [
 
 export default function Header() {
   return (
-    <header className="fixed top-0 inset-x-0 z-50 border-b border-cyan-500/30 bg-slate-900/40 backdrop-blur-3xl shadow-[0_10px_40px_rgba(6,182,212,0.15)]">
-      <div className="mx-auto max-w-6xl px-6 h-24 flex items-center justify-between gap-6">
+    <header className="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/10">
+      <div className="flex items-center justify-between w-full px-4 py-3 md:px-8">
         <Link
           href="/"
           aria-label="Élite Dépannage - Accueil"
@@ -41,9 +42,11 @@ export default function Header() {
 
         <a
           href="tel:0411939674"
-          className="hidden sm:inline-flex shrink-0 items-center rounded-full bg-cyan-500 px-5 py-2.5 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]"
+          aria-label="Urgence 30 min - Appeler le 04 11 93 96 74"
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-full bg-cyan-500 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] sm:h-auto sm:w-auto sm:px-5 sm:py-2.5"
         >
-          Urgence 30 min
+          <Phone className="h-5 w-5 sm:hidden" />
+          <span className="hidden sm:inline">Urgence 30 min</span>
         </a>
       </div>
     </header>

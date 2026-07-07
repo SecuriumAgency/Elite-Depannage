@@ -11,6 +11,7 @@ import {
   Star,
   Phone,
   Droplet,
+  CheckCircle2,
 } from "lucide-react";
 import ServiceCard3D from "@/components/ServiceCard3D";
 import { SEO_CITIES } from "@/lib/cities";
@@ -20,13 +21,31 @@ const SERVICES = [
   {
     icon: Droplet,
     title: "Plomberie",
+    slug: "plomberie",
     description: "Fuites, canalisations bouchées, chauffe-eau.",
   },
   {
     icon: Key,
     title: "Serrurerie",
+    slug: "serrurerie",
     description: "Porte claquée, serrure bloquée, blindage.",
   },
+];
+
+const PLOMBERIE_DETAILS = [
+  "Recherche et réparation de fuites d'eau, sans dégât inutile",
+  "Débouchage de canalisations : WC, éviers, douches et baignoires",
+  "Installation et dépannage de chauffe-eau et ballons",
+  "Remplacement de robinetterie, joints et flexibles",
+  "Rénovation complète de salle de bain",
+];
+
+const SERRURERIE_DETAILS = [
+  "Ouverture de porte claquée, sans dégât sur la serrure",
+  "Changement de serrure et de cylindre",
+  "Blindage de porte et renforcement anti-effraction",
+  "Dépannage après tentative d'effraction",
+  "Duplication de clés sécurisées",
 ];
 
 const TRUST_ITEMS = [
@@ -152,7 +171,7 @@ export default function Home() {
         </motion.h2>
 
         <div className="mx-auto mt-16 grid max-w-3xl gap-6 px-2 sm:grid-cols-2">
-          {SERVICES.map(({ icon, title, description }, i) => (
+          {SERVICES.map(({ icon, title, slug, description }, i) => (
             <motion.div
               key={title}
               initial={{ opacity: 0, y: 20 }}
@@ -160,7 +179,12 @@ export default function Home() {
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
             >
-              <ServiceCard3D icon={icon} title={title} description={description} />
+              <Link
+                href={`#${slug}`}
+                className="block cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(34,211,238,0.2)] active:scale-95"
+              >
+                <ServiceCard3D icon={icon} title={title} description={description} />
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -208,6 +232,101 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 4A. DÉTAIL PLOMBERIE */}
+      <section id="plomberie" className="relative px-6 py-24">
+        <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2 md:items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-cyan-400">
+              <Droplet className="h-4 w-4" /> Plomberie d&apos;urgence
+            </span>
+            <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">
+              Une fuite, une panne ? Nos plombiers interviennent en 30 minutes.
+            </h2>
+            <p className="mt-6 text-slate-400">
+              De la simple fuite au remplacement complet d&apos;un chauffe-eau, nos
+              artisans plombiers certifiés diagnostiquent et résolvent votre urgence
+              sans dégât inutile, avec un devis clair validé avant toute intervention.
+            </p>
+            <a
+              href="tel:0411939674"
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]"
+            >
+              <Phone className="h-4 w-4" />
+              Appeler un plombier
+            </a>
+          </motion.div>
+
+          <ul className="space-y-4">
+            {PLOMBERIE_DETAILS.map((item, i) => (
+              <motion.li
+                key={item}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: "easeOut" }}
+                className="flex items-start gap-3 rounded-2xl border border-white/10 bg-slate-900/60 p-4 backdrop-blur-xl"
+              >
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-cyan-400" />
+                <span className="text-sm text-slate-300">{item}</span>
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* 4B. DÉTAIL SERRURERIE */}
+      <section id="serrurerie" className="relative px-6 py-24">
+        <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2 md:items-center">
+          <ul className="order-2 space-y-4 md:order-1">
+            {SERRURERIE_DETAILS.map((item, i) => (
+              <motion.li
+                key={item}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: "easeOut" }}
+                className="flex items-start gap-3 rounded-2xl border border-white/10 bg-slate-900/60 p-4 backdrop-blur-xl"
+              >
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-cyan-400" />
+                <span className="text-sm text-slate-300">{item}</span>
+              </motion.li>
+            ))}
+          </ul>
+
+          <motion.div
+            className="order-1 md:order-2"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-cyan-400">
+              <Key className="h-4 w-4" /> Serrurerie d&apos;urgence
+            </span>
+            <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">
+              Porte claquée, serrure bloquée ? Nos serruriers arrivent en 30 minutes.
+            </h2>
+            <p className="mt-6 text-slate-400">
+              Ouverture de porte sans dégât, remplacement de serrure ou blindage
+              anti-effraction : nos serruriers certifiés interviennent 7j/7 avec un
+              tarif annoncé et respecté avant toute intervention.
+            </p>
+            <a
+              href="tel:0411939674"
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]"
+            >
+              <Phone className="h-4 w-4" />
+              Appeler un serrurier
+            </a>
+          </motion.div>
         </div>
       </section>
 
