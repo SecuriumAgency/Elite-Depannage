@@ -475,19 +475,23 @@ export default function Home() {
             <input
               type="text"
               placeholder="Nom"
+              aria-label="Nom"
               className="rounded-xl border border-white/20 bg-black/50 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
             />
             <input
               type="tel"
               placeholder="Téléphone"
+              aria-label="Téléphone"
               className="rounded-xl border border-white/20 bg-black/50 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
             />
             <input
               type="text"
               placeholder="Code Postal"
+              aria-label="Code Postal"
               className="rounded-xl border border-white/20 bg-black/50 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
             />
             <select
+              aria-label="Type d'urgence"
               className="rounded-xl border border-white/20 bg-black/50 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
               defaultValue=""
             >
