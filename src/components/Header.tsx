@@ -2,12 +2,28 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Menu, Phone, X } from "lucide-react";
 import Logo3D from "@/components/Logo3D";
-import SmoothScroll from "@/components/SmoothScroll";
-import CustomCursor from "@/components/ui/CustomCursor";
-import BackgroundCanvas from "@/components/ui/BackgroundCanvas";
 import MagneticButton from "@/components/ui/MagneticButton";
+
+// Ambient, non-critical globals: excluded from SSR entirely and code-split
+// into their own client chunks so they never delay the initial HTML/LCP.
+const SmoothScroll = dynamic(() => import("@/components/SmoothScroll"), {
+  ssr: false,
+});
+const CustomCursor = dynamic(() => import("@/components/ui/CustomCursor"), {
+  ssr: false,
+});
+const BackgroundCanvas = dynamic(
+  () => import("@/components/ui/BackgroundCanvas"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="fixed inset-0 -z-[1] bg-gradient-to-b from-slate-950 to-slate-900" />
+    ),
+  }
+);
 
 const NAV_LINKS = [
   { label: "Services", href: "#services" },
