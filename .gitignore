@@ -42,3 +42,6 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# oh-my-claudecode local session state
+.omc/

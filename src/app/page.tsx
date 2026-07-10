@@ -13,9 +13,14 @@ import {
   Droplet,
   CheckCircle2,
 } from "lucide-react";
-import ServiceCard3D from "@/components/ServiceCard3D";
+import { BentoCard, BentoGrid } from "@/components/BentoGrid";
+import MagneticButton from "@/components/ui/MagneticButton";
+import RevealHeading from "@/components/ui/RevealHeading";
 import { SEO_CITIES } from "@/lib/cities";
 import { BLOG_POSTS } from "@/lib/blog-content";
+import { getCityImage } from "@/lib/seo-content";
+
+const HERO_IMAGE = getCityImage("Montpellier", "plombier", 0);
 
 const SERVICES = [
   {
@@ -81,9 +86,21 @@ const TESTIMONIALS = [
 
 export default function Home() {
   return (
-    <main className="flex-1">
+    <main className="flex-1 overflow-x-hidden">
       {/* 1. HERO */}
       <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
+        <div className="absolute inset-0">
+          <Image
+            src={HERO_IMAGE}
+            alt="Plombier et serrurier d'élite en intervention d'urgence dans l'Hérault"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-25"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/90 to-slate-950" />
+        </div>
+
         <motion.div
           aria-hidden
           animate={{ x: [0, 40, 0], y: [0, -20, 0] }}
@@ -126,17 +143,28 @@ export default function Home() {
             minutes garanties.
           </motion.p>
 
-          <motion.a
-            href="tel:0411939674"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-            className="mt-10 inline-flex items-center gap-3 rounded-full bg-cyan-500 px-10 py-5 text-lg font-bold text-slate-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_0_40px_rgba(6,182,212,0.5)] transition-shadow hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_0_60px_rgba(6,182,212,0.8)]"
+          <MagneticButton className="mt-10">
+            <motion.a
+              href="tel:0411939674"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+              className="relative inline-flex min-h-[64px] items-center gap-3 rounded-full bg-cyan-500 px-10 py-5 text-lg font-bold text-slate-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_0_40px_rgba(6,182,212,0.5)] transition-shadow hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_0_60px_rgba(6,182,212,0.8)] active:shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_0_20px_rgba(6,182,212,0.6)]"
+            >
+              <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-cyan-500/40 [animation-duration:2.5s]" />
+              <Phone className="h-6 w-6" />
+              Intervention Immédiate
+            </motion.a>
+          </MagneticButton>
+
+          <a
+            href="#services"
+            className="mt-6 text-sm font-semibold text-slate-400 underline-offset-4 transition-colors hover:text-cyan-400 hover:underline"
           >
-            <Phone className="h-5 w-5" />
-            Intervention Immédiate
-          </motion.a>
+            Découvrir nos expertises ↓
+          </a>
         </div>
       </section>
 
@@ -159,7 +187,7 @@ export default function Home() {
       </section>
 
       {/* 3. SERVICES */}
-      <section id="services" className="relative px-6 py-24">
+      <section id="services" className="relative scroll-mt-24 px-6 py-24">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -170,28 +198,33 @@ export default function Home() {
           Nos Expertises d&apos;Élite
         </motion.h2>
 
-        <div className="mx-auto mt-16 grid max-w-3xl gap-6 px-2 sm:grid-cols-2">
-          {SERVICES.map(({ icon, title, slug, description }, i) => (
-            <motion.div
-              key={title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
-            >
-              <Link
-                href={`#${slug}`}
-                className="block cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(34,211,238,0.2)] active:scale-95"
+        <div className="mx-auto mt-16 max-w-4xl px-2">
+          <BentoGrid className="sm:auto-rows-[18rem]">
+            {SERVICES.map(({ icon, title, slug, description }, i) => (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+                className={i === 0 ? "sm:col-span-2" : ""}
               >
-                <ServiceCard3D icon={icon} title={title} description={description} />
-              </Link>
-            </motion.div>
-          ))}
+                <BentoCard
+                  href={`#${slug}`}
+                  icon={icon}
+                  title={title}
+                  description={description}
+                  cta="Voir le détail"
+                  className="h-full"
+                />
+              </motion.div>
+            ))}
+          </BentoGrid>
         </div>
       </section>
 
       {/* 4. EXPERTISE & VALEURS */}
-      <section id="expertise" className="relative px-6 py-24">
+      <section id="expertise" className="relative scroll-mt-24 px-6 py-24">
         <div className="mx-auto grid max-w-5xl gap-16 md:grid-cols-2 md:items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -202,9 +235,9 @@ export default function Home() {
             <span className="text-sm font-semibold uppercase tracking-widest text-cyan-400">
               Expertise &amp; valeurs
             </span>
-            <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">
+            <RevealHeading className="mt-4 text-3xl font-bold text-white sm:text-4xl">
               Des matériaux de premier choix, des prix transparents.
-            </h2>
+            </RevealHeading>
             <p className="mt-6 text-slate-400">
               Nous n&apos;installons que des équipements de marques reconnues —{" "}
               <span className="text-slate-200 font-semibold">Fichet</span>,{" "}
@@ -236,7 +269,7 @@ export default function Home() {
       </section>
 
       {/* 4A. DÉTAIL PLOMBERIE */}
-      <section id="plomberie" className="relative px-6 py-24">
+      <section id="plomberie" className="relative scroll-mt-24 px-6 py-24">
         <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2 md:items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -255,13 +288,15 @@ export default function Home() {
               artisans plombiers certifiés diagnostiquent et résolvent votre urgence
               sans dégât inutile, avec un devis clair validé avant toute intervention.
             </p>
-            <a
-              href="tel:0411939674"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]"
-            >
-              <Phone className="h-4 w-4" />
-              Appeler un plombier
-            </a>
+            <MagneticButton className="mt-8">
+              <a
+                href="tel:0411939674"
+                className="inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]"
+              >
+                <Phone className="h-4 w-4" />
+                Appeler un plombier
+              </a>
+            </MagneticButton>
           </motion.div>
 
           <ul className="space-y-4">
@@ -283,7 +318,7 @@ export default function Home() {
       </section>
 
       {/* 4B. DÉTAIL SERRURERIE */}
-      <section id="serrurerie" className="relative px-6 py-24">
+      <section id="serrurerie" className="relative scroll-mt-24 px-6 py-24">
         <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2 md:items-center">
           <ul className="order-2 space-y-4 md:order-1">
             {SERRURERIE_DETAILS.map((item, i) => (
@@ -319,28 +354,24 @@ export default function Home() {
               anti-effraction : nos serruriers certifiés interviennent 7j/7 avec un
               tarif annoncé et respecté avant toute intervention.
             </p>
-            <a
-              href="tel:0411939674"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]"
-            >
-              <Phone className="h-4 w-4" />
-              Appeler un serrurier
-            </a>
+            <MagneticButton className="mt-8">
+              <a
+                href="tel:0411939674"
+                className="inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]"
+              >
+                <Phone className="h-4 w-4" />
+                Appeler un serrurier
+              </a>
+            </MagneticButton>
           </motion.div>
         </div>
       </section>
 
       {/* 5. AVIS CLIENTS */}
-      <section id="avis" className="relative px-6 py-24">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mx-auto max-w-2xl text-center text-3xl font-bold text-white sm:text-4xl"
-        >
+      <section id="avis" className="relative scroll-mt-24 px-6 py-24">
+        <RevealHeading className="mx-auto max-w-2xl text-center text-3xl font-bold text-white sm:text-4xl">
           Ils nous font confiance
-        </motion.h2>
+        </RevealHeading>
 
         <div className="mx-auto mt-16 grid max-w-5xl gap-6 sm:grid-cols-3">
           {TESTIMONIALS.map((t, i) => (
@@ -370,7 +401,7 @@ export default function Home() {
       </section>
 
       {/* 6. MAILLAGE TERRITORIAL SEO */}
-      <section id="villes" className="relative px-6 py-24">
+      <section id="villes" className="relative scroll-mt-24 px-6 py-24">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -406,7 +437,7 @@ export default function Home() {
       </section>
 
       {/* 7. BLOG SEO */}
-      <section id="blog" className="relative px-6 py-24">
+      <section id="blog" className="relative scroll-mt-24 px-6 py-24">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -467,9 +498,9 @@ export default function Home() {
           <span className="text-sm font-semibold uppercase tracking-widest text-cyan-400">
             Demande de rappel d&apos;urgence
           </span>
-          <h2 className="mt-3 text-3xl font-bold text-white">
+          <RevealHeading className="mt-3 text-3xl font-bold text-white">
             Un problème maintenant ? On vous rappelle.
-          </h2>
+          </RevealHeading>
 
           <form className="mt-8 grid gap-4 sm:grid-cols-2">
             <input
@@ -501,13 +532,15 @@ export default function Home() {
               <option value="plomberie">Plomberie</option>
               <option value="serrurerie">Serrurerie</option>
             </select>
-            <button
-              type="submit"
-              className="sm:col-span-2 mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-cyan-500 px-8 py-3.5 text-base font-bold text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(6,182,212,0.8)]"
-            >
-              <Wrench className="h-4 w-4" />
-              Demander un rappel — 04 11 93 96 74
-            </button>
+            <MagneticButton className="sm:col-span-2 mt-2 block">
+              <button
+                type="submit"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-cyan-500 px-8 py-3.5 text-base font-bold text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(6,182,212,0.8)]"
+              >
+                <Wrench className="h-4 w-4" />
+                Demander un rappel — 04 11 93 96 74
+              </button>
+            </MagneticButton>
           </form>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-500">
