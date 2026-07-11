@@ -18,9 +18,23 @@ export async function generateMetadata({
   const post = getBlogPostBySlug(slug);
   if (!post) return {};
 
+  const title = `${post.title} | Élite Dépannage 34`;
+
   return {
-    title: `${post.title} | Élite Dépannage 34`,
+    title,
     description: post.excerpt,
+    openGraph: {
+      title,
+      description: post.excerpt,
+      type: "article",
+      images: [{ url: post.image }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: post.excerpt,
+      images: [post.image],
+    },
   };
 }
 

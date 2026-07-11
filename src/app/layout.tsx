@@ -14,11 +14,27 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const TITLE = "Élite Dépannage 34 | Plomberie & Serrurerie d'Urgence";
+const DESCRIPTION =
+  "Fuite, panne ou porte claquée dans l'Hérault ? Élite Dépannage 34 intervient en 30 minutes, 7j/7, pour toutes vos urgences plomberie et serrurerie. Devis clair, artisans certifiés.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.elite-depannage-34.fr"),
-  title: "Élite Dépannage 34 | Plomberie & Serrurerie d'Urgence",
-  description:
-    "Fuite, panne ou porte claquée dans l'Hérault ? Élite Dépannage 34 intervient en 30 minutes, 7j/7, pour toutes vos urgences plomberie et serrurerie. Devis clair, artisans certifiés.",
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "https://www.elite-depannage-34.fr",
+    siteName: "Élite Dépannage 34",
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({

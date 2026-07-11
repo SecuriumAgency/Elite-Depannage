@@ -23,10 +23,14 @@ export async function generateMetadata({
   const { metier, ville } = await params;
   const metierLabel = getMetierLabel(metier);
   const villeLabel = getCityLabel(ville);
+  const title = `Dépannage ${metierLabel.toLowerCase()} à ${villeLabel} (34) | Urgence 30 min`;
+  const description = `Intervention rapide 7j/7 pour tous vos besoins en ${metierLabel.toLowerCase()} à ${villeLabel}. Devis gratuit, artisans certifiés, disponibles en moins de 30 minutes.`;
 
   return {
-    title: `Dépannage ${metierLabel.toLowerCase()} à ${villeLabel} (34) | Urgence 30 min`,
-    description: `Intervention rapide 7j/7 pour tous vos besoins en ${metierLabel.toLowerCase()} à ${villeLabel}. Devis gratuit, artisans certifiés, disponibles en moins de 30 minutes.`,
+    title,
+    description,
+    openGraph: { title, description },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
