@@ -1,5 +1,5 @@
 import { timingSafeEqual } from "crypto";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
 
 function isAuthorized(request: NextRequest): boolean {
@@ -41,6 +41,12 @@ async function handleRevalidate(request: NextRequest) {
   }
 
   try {
+    // Notion content (src/lib/notion.ts) is cached under this tag regardless
+    // of which path changed, so always bust it alongside the path revalidation.
+    // `{ expire: 0 }` forces immediate expiration, which the Next.js docs
+    // recommend specifically for webhook-triggered revalidation like this.
+    revalidateTag("seo-pages", { expire: 0 });
+
     if (path) {
       revalidatePath(path, "page");
     } else {

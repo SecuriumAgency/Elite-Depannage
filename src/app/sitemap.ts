@@ -2,10 +2,11 @@ import type { MetadataRoute } from "next";
 import { METIERS, SEO_CITIES } from "@/lib/cities";
 import { BLOG_POSTS } from "@/lib/blog-content";
 import { LEGAL_PAGES } from "@/lib/legal-content";
+import { getSeoPages } from "@/lib/notion";
 
 const BASE_URL = "https://www.elite-depannage-34.fr";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const buildDate = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -52,5 +53,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.2,
   }));
 
-  return [...staticRoutes, ...villeRoutes, ...blogRoutes, ...legalRoutes];
+  const seoPages = await getSeoPages();
+  const expertiseRoutes: MetadataRoute.Sitemap = seoPages.map((page) => ({
+    url: `${BASE_URL}/expertises/${page.slug}`,
+    lastModified: buildDate,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...villeRoutes, ...blogRoutes, ...legalRoutes, ...expertiseRoutes];
 }
