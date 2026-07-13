@@ -6,19 +6,24 @@ import { LEGAL_PAGES } from "@/lib/legal-content";
 const BASE_URL = "https://www.elite-depannage-34.fr";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const buildDate = new Date();
+
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
+      lastModified: buildDate,
       changeFrequency: "weekly",
       priority: 1.0,
     },
     {
       url: `${BASE_URL}/llms.txt`,
+      lastModified: buildDate,
       changeFrequency: "weekly",
       priority: 0.5,
     },
     {
       url: `${BASE_URL}/llms-full.txt`,
+      lastModified: buildDate,
       changeFrequency: "weekly",
       priority: 0.5,
     },
@@ -27,6 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const villeRoutes: MetadataRoute.Sitemap = METIERS.flatMap((metier) =>
     SEO_CITIES.map((city) => ({
       url: `${BASE_URL}/${metier.slug}/${city.slug}`,
+      lastModified: buildDate,
       changeFrequency: "monthly" as const,
       priority: 0.9,
     }))
@@ -34,12 +40,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const blogRoutes: MetadataRoute.Sitemap = BLOG_POSTS.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
+    lastModified: buildDate,
     changeFrequency: "monthly",
     priority: 0.6,
   }));
 
   const legalRoutes: MetadataRoute.Sitemap = LEGAL_PAGES.map((page) => ({
     url: `${BASE_URL}/legal/${page.slug}`,
+    lastModified: buildDate,
     changeFrequency: "yearly",
     priority: 0.2,
   }));

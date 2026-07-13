@@ -14,14 +14,11 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { BentoCard, BentoGrid } from "@/components/BentoGrid";
+import Hero from "@/components/sections/Hero";
 import MagneticButton from "@/components/ui/MagneticButton";
 import RevealHeading from "@/components/ui/RevealHeading";
 import { SEO_CITIES } from "@/lib/cities";
 import { BLOG_POSTS } from "@/lib/blog-content";
-import { getCityImage } from "@/lib/seo-content";
-import { getLocalBusinessSchema } from "@/lib/schema";
-
-const HERO_IMAGE = getCityImage("Montpellier", "plombier", 0);
 
 const SERVICES = [
   {
@@ -87,94 +84,9 @@ const TESTIMONIALS = [
 
 export default function Home() {
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getLocalBusinessSchema()),
-        }}
-      />
-      <main className="flex-1 overflow-x-hidden">
+    <main className="flex-1 overflow-x-hidden">
       {/* 1. HERO */}
-      <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
-        <div className="absolute inset-0">
-          <Image
-            src={HERO_IMAGE}
-            alt="Plombier et serrurier d'élite en intervention d'urgence dans l'Hérault"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-25"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/90 to-slate-950" />
-        </div>
-
-        <motion.div
-          aria-hidden
-          animate={{ x: [0, 40, 0], y: [0, -20, 0] }}
-          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-          className="pointer-events-none absolute -top-40 -left-40 h-[40rem] w-[40rem] rounded-full bg-cyan-900/20 blur-[150px]"
-        />
-        <motion.div
-          aria-hidden
-          animate={{ x: [0, -30, 0], y: [0, 30, 0] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="pointer-events-none absolute -bottom-40 -right-40 h-[40rem] w-[40rem] rounded-full bg-blue-900/20 blur-[150px]"
-        />
-
-        <div className="relative z-10 flex flex-col items-center text-center pt-24">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 font-bold tracking-[0.3em] text-sm md:text-base mb-6 uppercase"
-          >
-            L&apos;excellence de l&apos;artisanat. L&apos;urgence maîtrisée.
-          </motion.p>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-            className="text-white font-black text-4xl md:text-6xl lg:text-8xl tracking-tight drop-shadow-[0_0_20px_rgba(34,211,238,0.5)] max-w-4xl"
-          >
-            Intervention d&apos;Urgence dans l&apos;Hérault
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-            className="mt-6 max-w-2xl text-lg text-slate-300"
-          >
-            Plombiers et Serruriers certifiés. Disponibles 7j/7. Arrivée sur site en 30
-            minutes garanties.
-          </motion.p>
-
-          <MagneticButton className="mt-10">
-            <motion.a
-              href="tel:0411939674"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-              className="relative inline-flex min-h-[64px] items-center gap-3 rounded-full bg-cyan-500 px-10 py-5 text-lg font-bold text-slate-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_0_40px_rgba(6,182,212,0.5)] transition-shadow hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_0_60px_rgba(6,182,212,0.8)] active:shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_0_20px_rgba(6,182,212,0.6)]"
-            >
-              <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-cyan-500/40 [animation-duration:2.5s]" />
-              <Phone className="h-6 w-6" />
-              Intervention Immédiate
-            </motion.a>
-          </MagneticButton>
-
-          <a
-            href="#services"
-            className="mt-6 text-sm font-semibold text-slate-400 underline-offset-4 transition-colors hover:text-cyan-400 hover:underline"
-          >
-            Découvrir nos expertises ↓
-          </a>
-        </div>
-      </section>
+      <Hero />
 
       {/* 2. TRUST BAR */}
       <section className="relative border-y border-white/10 bg-white/5 py-6 backdrop-blur-md">
@@ -561,7 +473,6 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
-      </main>
-    </>
+    </main>
   );
 }

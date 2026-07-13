@@ -19,23 +19,26 @@ export async function generateMetadata({
   const post = getBlogPostBySlug(slug);
   if (!post) return {};
 
-  const title = `${post.title} | Élite Dépannage 34`;
+  // `title` here is run through the root layout's title.template, which already
+  // appends " | Élite Dépannage 34" — openGraph/twitter titles aren't templated,
+  // so they need the suffix spelled out explicitly to match the resolved <title>.
+  const fullTitle = `${post.title} | Élite Dépannage 34`;
 
   return {
-    title,
+    title: post.title,
     description: post.excerpt,
     alternates: {
       types: { "text/markdown": `${SITE_URL}/blog/${slug}/markdown` },
     },
     openGraph: {
-      title,
+      title: fullTitle,
       description: post.excerpt,
       type: "article",
       images: [{ url: post.image }],
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: fullTitle,
       description: post.excerpt,
       images: [post.image],
     },
@@ -66,33 +69,35 @@ export default async function BlogPostPage({
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
       </div>
 
-      <h1 className="mt-8 bg-gradient-to-r from-white to-cyan-400 bg-clip-text text-4xl font-black tracking-tight text-transparent drop-shadow-[0_0_20px_rgba(34,211,238,0.35)] sm:text-5xl">
-        {post.title}
-      </h1>
-      <p className="mt-4 text-lg text-slate-400">{post.excerpt}</p>
+      <article>
+        <h1 className="mt-8 bg-gradient-to-r from-white to-cyan-400 bg-clip-text text-4xl font-black tracking-tight text-transparent drop-shadow-[0_0_20px_rgba(34,211,238,0.35)] sm:text-5xl">
+          {post.title}
+        </h1>
+        <p className="mt-4 text-lg text-slate-400">{post.excerpt}</p>
 
-      <div className="mt-12 space-y-12">
-        {post.sections.map((section) => (
-          <section key={section.heading}>
-            <h2 className="text-2xl font-bold text-white">{section.heading}</h2>
-            <div className="mt-4 space-y-4 text-slate-400">
-              {section.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-              {section.list && (
-                <ul className="space-y-2 pl-1">
-                  {section.list.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </section>
-        ))}
-      </div>
+        <div className="mt-12 space-y-12">
+          {post.sections.map((section) => (
+            <section key={section.heading}>
+              <h2 className="text-2xl font-bold text-white">{section.heading}</h2>
+              <div className="mt-4 space-y-4 text-slate-400">
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+                {section.list && (
+                  <ul className="space-y-2 pl-1">
+                    {section.list.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </section>
+          ))}
+        </div>
+      </article>
 
       <div className="mt-16 rounded-3xl border border-cyan-400/40 bg-gradient-to-br from-cyan-600 via-blue-600 to-blue-800 p-8 text-center shadow-[0_0_40px_rgba(34,211,238,0.3)]">
         <p className="text-lg font-bold text-white">Une urgence maintenant ?</p>

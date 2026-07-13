@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
+import { getLocalBusinessSchema } from "@/lib/schema";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,7 +18,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: SITE_TITLE,
+  title: {
+    template: "%s | Élite Dépannage 34",
+    default: SITE_TITLE,
+  },
   description: SITE_DESCRIPTION,
   alternates: {
     types: { "text/markdown": `${SITE_URL}/markdown` },
@@ -48,6 +52,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-slate-950 text-slate-50">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getLocalBusinessSchema()),
+          }}
+        />
         <Header />
         {children}
         <Footer />

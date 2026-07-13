@@ -19,7 +19,8 @@ export async function generateMetadata({
   if (!page) return {};
 
   return {
-    title: `${page.title} | Élite Dépannage 34`,
+    // Root layout's title.template already appends " | Élite Dépannage 34".
+    title: page.title,
     alternates: {
       types: { "text/markdown": `${SITE_URL}/legal/${slug}/markdown` },
     },
@@ -45,32 +46,34 @@ export default async function LegalPage({
         Retour
       </Link>
 
-      <h1 className="mt-8 bg-gradient-to-r from-white to-cyan-400 bg-clip-text text-4xl font-black tracking-tight text-transparent drop-shadow-[0_0_20px_rgba(34,211,238,0.35)] sm:text-5xl">
-        {page.title}
-      </h1>
+      <article>
+        <h1 className="mt-8 bg-gradient-to-r from-white to-cyan-400 bg-clip-text text-4xl font-black tracking-tight text-transparent drop-shadow-[0_0_20px_rgba(34,211,238,0.35)] sm:text-5xl">
+          {page.title}
+        </h1>
 
-      <div className="mt-12 space-y-10">
-        {page.sections.map((section) => (
-          <section key={section.heading}>
-            <h2 className="text-xl font-bold text-white">{section.heading}</h2>
-            <div className="mt-3 space-y-3 text-slate-400">
-              {section.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-              {section.list && (
-                <ul className="space-y-2 pl-1">
-                  {section.list.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </section>
-        ))}
-      </div>
+        <div className="mt-12 space-y-10">
+          {page.sections.map((section) => (
+            <section key={section.heading}>
+              <h2 className="text-xl font-bold text-white">{section.heading}</h2>
+              <div className="mt-3 space-y-3 text-slate-400">
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+                {section.list && (
+                  <ul className="space-y-2 pl-1">
+                    {section.list.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </section>
+          ))}
+        </div>
+      </article>
     </main>
   );
 }

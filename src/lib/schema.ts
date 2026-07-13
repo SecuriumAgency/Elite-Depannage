@@ -17,11 +17,17 @@ const DAYS_OF_WEEK = [
 export function getLocalBusinessSchema() {
   return {
     "@context": "https://schema.org",
+    "@id": `${BASE_URL}/#business`,
     "@type": ["Plumber", "Locksmith"],
     name: NAME,
     url: BASE_URL,
+    image: `${BASE_URL}/opengraph-image`,
     telephone: PHONE,
     priceRange: "€€",
+    // NOTE: no `address` field — no verified street address (SIRET/siège social)
+    // exists in the codebase yet (see legal-content.ts "[à compléter]"). Adding a
+    // fabricated one would create NAP inconsistency and actively hurt local SEO.
+    // Add it here once the real registered address is available.
     areaServed: SEO_CITIES.map((city) => ({
       "@type": "City",
       name: city.name,
