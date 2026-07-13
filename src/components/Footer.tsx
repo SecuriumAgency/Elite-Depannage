@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Phone, MapPin } from "lucide-react";
 import Logo3D from "@/components/Logo3D";
+import PhoneLink from "@/components/ui/PhoneLink";
 import { SEO_CITIES } from "@/lib/cities";
 import { LEGAL_PAGES } from "@/lib/legal-content";
 
@@ -32,13 +33,10 @@ export default function Footer() {
               Plombiers et serruriers d&apos;élite dans l&apos;Hérault (34). Intervention
               d&apos;urgence en 30 minutes, 7j/7, devis clair avant travaux.
             </p>
-            <a
-              href="tel:0411939674"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-cyan-500/10 border border-cyan-500/40 px-4 py-2.5 text-base font-bold text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.6)] transition-all hover:scale-105 hover:bg-cyan-500/20"
-            >
+            <PhoneLink className="mt-6 inline-flex items-center gap-2 rounded-full bg-cyan-500/10 border border-cyan-500/40 px-4 py-2.5 text-base font-bold text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.6)] transition-all hover:scale-105 hover:bg-cyan-500/20">
               <Phone className="h-4 w-4" />
               04 11 93 96 74
-            </a>
+            </PhoneLink>
             <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-slate-500">
               <MapPin className="h-3.5 w-3.5" /> Intervention dans tout l&apos;Hérault
             </p>

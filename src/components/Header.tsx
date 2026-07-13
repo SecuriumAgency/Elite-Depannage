@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { Menu, Phone, X } from "lucide-react";
 import Logo3D from "@/components/Logo3D";
 import MagneticButton from "@/components/ui/MagneticButton";
+import PhoneLink from "@/components/ui/PhoneLink";
 
 // Ambient, non-critical globals: excluded from SSR entirely and code-split
 // into their own client chunks so they never delay the initial HTML/LCP.
@@ -71,14 +72,13 @@ export default function Header() {
 
           <div className="flex shrink-0 items-center gap-2">
             <MagneticButton>
-              <a
-                href="tel:0411939674"
+              <PhoneLink
                 aria-label="Urgence 30 min - Appeler le 04 11 93 96 74"
                 className="inline-flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-full bg-cyan-500 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] sm:h-auto sm:w-auto sm:px-5 sm:py-2.5"
               >
                 <Phone className="h-5 w-5 sm:hidden" />
                 <span className="hidden sm:inline">Urgence 30 min</span>
-              </a>
+              </PhoneLink>
             </MagneticButton>
 
             <button

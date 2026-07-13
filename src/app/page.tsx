@@ -16,6 +16,7 @@ import {
 import { BentoCard, BentoGrid } from "@/components/BentoGrid";
 import Hero from "@/components/sections/Hero";
 import MagneticButton from "@/components/ui/MagneticButton";
+import PhoneLink from "@/components/ui/PhoneLink";
 import RevealHeading from "@/components/ui/RevealHeading";
 import { SEO_CITIES } from "@/lib/cities";
 import { BLOG_POSTS } from "@/lib/blog-content";
@@ -209,13 +210,10 @@ export default function Home() {
               sans dégât inutile, avec un devis clair validé avant toute intervention.
             </p>
             <MagneticButton className="mt-8">
-              <a
-                href="tel:0411939674"
-                className="inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]"
-              >
+              <PhoneLink className="inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]">
                 <Phone className="h-4 w-4" />
                 Appeler un plombier
-              </a>
+              </PhoneLink>
             </MagneticButton>
           </motion.div>
 
@@ -275,13 +273,10 @@ export default function Home() {
               tarif annoncé et respecté avant toute intervention.
             </p>
             <MagneticButton className="mt-8">
-              <a
-                href="tel:0411939674"
-                className="inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]"
-              >
+              <PhoneLink className="inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]">
                 <Phone className="h-4 w-4" />
                 Appeler un serrurier
-              </a>
+              </PhoneLink>
             </MagneticButton>
           </motion.div>
         </div>

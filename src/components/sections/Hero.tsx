@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { Phone } from "lucide-react";
 import MagneticButton from "@/components/ui/MagneticButton";
+import PhoneLink from "@/components/ui/PhoneLink";
 
 const EMERGENCY_PHONE_DISPLAY = "04 11 93 96 74";
-const EMERGENCY_PHONE_HREF = "tel:0411939674";
 
 export default function Hero() {
   return (
@@ -34,14 +34,13 @@ export default function Hero() {
         </p>
 
         <MagneticButton className="mt-10">
-          <a
-            href={EMERGENCY_PHONE_HREF}
+          <PhoneLink
             aria-label={`Appel d'urgence immédiat au ${EMERGENCY_PHONE_DISPLAY}`}
             className="inline-flex min-h-[64px] items-center gap-3 rounded-full bg-cyan-500 px-10 py-5 text-lg font-bold text-slate-950 shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-[0_0_40px_rgba(6,182,212,0.6)]"
           >
             <Phone className="h-6 w-6" />
             Appel d&apos;Urgence Immédiat
-          </a>
+          </PhoneLink>
         </MagneticButton>
       </div>
     </section>

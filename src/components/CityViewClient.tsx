@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronRight, MapPin, Phone } from "lucide-react";
+import PhoneLink from "@/components/ui/PhoneLink";
 import { INTERVENTION_CITIES } from "@/lib/cities";
 import type { Section } from "@/lib/seo-content";
 
@@ -99,13 +100,10 @@ export default function CityViewClient({
             <h3 className="text-lg font-bold text-white">
               Besoin d&apos;un {metierLabel.toLowerCase()} à {villeLabel} ?
             </h3>
-            <a
-              href="tel:0411939674"
-              className="mt-4 flex items-center gap-2 text-2xl font-black text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] transition-all hover:scale-105"
-            >
+            <PhoneLink className="mt-4 flex items-center gap-2 text-2xl font-black text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] transition-all hover:scale-105">
               <Phone className="h-6 w-6" />
               04 11 93 96 74
-            </a>
+            </PhoneLink>
             <p className="mt-3 text-sm font-semibold uppercase tracking-widest text-cyan-100/90">
               Disponible 24h/7jours
             </p>
