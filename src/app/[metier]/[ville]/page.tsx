@@ -6,8 +6,15 @@ import {
   SEO_CITIES,
   type Metier,
 } from "@/lib/cities";
-import { generateCityContent, getCityImage, SECTIONS } from "@/lib/seo-content";
+import {
+  generateCityContent,
+  getCityImage,
+  getVilleMeta,
+  SECTIONS,
+} from "@/lib/seo-content";
 import CityViewClient from "@/components/CityViewClient";
+import { getBreadcrumbSchema, getServiceSchema } from "@/lib/schema";
+import { SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
   return METIERS.flatMap((metier) =>
@@ -23,12 +30,14 @@ export async function generateMetadata({
   const { metier, ville } = await params;
   const metierLabel = getMetierLabel(metier);
   const villeLabel = getCityLabel(ville);
-  const title = `Dépannage ${metierLabel.toLowerCase()} à ${villeLabel} (34) | Urgence 30 min`;
-  const description = `Intervention rapide 7j/7 pour tous vos besoins en ${metierLabel.toLowerCase()} à ${villeLabel}. Devis gratuit, artisans certifiés, disponibles en moins de 30 minutes.`;
+  const { title, description } = getVilleMeta(metierLabel, villeLabel);
 
   return {
     title,
     description,
+    alternates: {
+      types: { "text/markdown": `${SITE_URL}/${metier}/${ville}/markdown` },
+    },
     openGraph: { title, description },
     twitter: { card: "summary_large_image", title, description },
   };
@@ -53,12 +62,28 @@ export default async function VillePage({
     image: getCityImage(villeLabel, safeMetier, i),
   }));
 
+  const serviceSchema = getServiceSchema(metierLabel, safeMetier, villeLabel, ville);
+  const breadcrumbSchema = getBreadcrumbSchema(
+    `${metierLabel} à ${villeLabel}`,
+    `/${metier}/${ville}`
+  );
+
   return (
-    <CityViewClient
-      metier={metier}
-      metierLabel={metierLabel}
-      villeLabel={villeLabel}
-      sections={sections}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <CityViewClient
+        metier={metier}
+        metierLabel={metierLabel}
+        villeLabel={villeLabel}
+        sections={sections}
+      />
+    </>
   );
 }

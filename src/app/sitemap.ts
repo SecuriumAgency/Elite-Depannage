@@ -10,7 +10,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: BASE_URL,
       changeFrequency: "weekly",
-      priority: 1,
+      priority: 1.0,
+    },
+    {
+      url: `${BASE_URL}/llms.txt`,
+      changeFrequency: "weekly",
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/llms-full.txt`,
+      changeFrequency: "weekly",
+      priority: 0.5,
     },
   ];
 
@@ -18,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     SEO_CITIES.map((city) => ({
       url: `${BASE_URL}/${metier.slug}/${city.slug}`,
       changeFrequency: "monthly" as const,
-      priority: 0.8,
+      priority: 0.9,
     }))
   );
 

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Phone } from "lucide-react";
 import { BLOG_POSTS, getBlogPostBySlug } from "@/lib/blog-content";
+import { SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
   return BLOG_POSTS.map((post) => ({ slug: post.slug }));
@@ -23,6 +24,9 @@ export async function generateMetadata({
   return {
     title,
     description: post.excerpt,
+    alternates: {
+      types: { "text/markdown": `${SITE_URL}/blog/${slug}/markdown` },
+    },
     openGraph: {
       title,
       description: post.excerpt,

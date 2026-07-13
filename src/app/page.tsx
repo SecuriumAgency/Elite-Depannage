@@ -19,6 +19,7 @@ import RevealHeading from "@/components/ui/RevealHeading";
 import { SEO_CITIES } from "@/lib/cities";
 import { BLOG_POSTS } from "@/lib/blog-content";
 import { getCityImage } from "@/lib/seo-content";
+import { getLocalBusinessSchema } from "@/lib/schema";
 
 const HERO_IMAGE = getCityImage("Montpellier", "plombier", 0);
 
@@ -86,7 +87,14 @@ const TESTIMONIALS = [
 
 export default function Home() {
   return (
-    <main className="flex-1 overflow-x-hidden">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getLocalBusinessSchema()),
+        }}
+      />
+      <main className="flex-1 overflow-x-hidden">
       {/* 1. HERO */}
       <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
         <div className="absolute inset-0">
@@ -553,6 +561,7 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
-    </main>
+      </main>
+    </>
   );
 }

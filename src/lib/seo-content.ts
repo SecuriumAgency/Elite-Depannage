@@ -133,6 +133,14 @@ const SOLUTIONS: Record<Metier, Record<Section, readonly string[]>> = {
   },
 };
 
+export function getVilleMeta(metierLabel: string, villeLabel: string) {
+  const keyword = `${metierLabel} à ${villeLabel}`;
+  const title = `Dépannage ${metierLabel.toLowerCase()} à ${villeLabel} (34) | Urgence 30 min`;
+  const description = `Intervention rapide 7j/7 pour tous vos besoins en ${metierLabel.toLowerCase()} à ${villeLabel}. Devis gratuit, artisans certifiés, disponibles en moins de 30 minutes.`;
+
+  return { keyword, title, description };
+}
+
 export type CityContent = Record<Section, { title: string; paragraph: string }>;
 
 export function generateCityContent(ville: string, metier: Metier): CityContent {

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { LEGAL_PAGES, getLegalPageBySlug } from "@/lib/legal-content";
+import { SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
   return LEGAL_PAGES.map((page) => ({ slug: page.slug }));
@@ -19,6 +20,9 @@ export async function generateMetadata({
 
   return {
     title: `${page.title} | Élite Dépannage 34`,
+    alternates: {
+      types: { "text/markdown": `${SITE_URL}/legal/${slug}/markdown` },
+    },
   };
 }
 

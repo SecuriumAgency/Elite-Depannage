@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,26 +15,25 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const TITLE = "Élite Dépannage 34 | Plomberie & Serrurerie d'Urgence";
-const DESCRIPTION =
-  "Fuite, panne ou porte claquée dans l'Hérault ? Élite Dépannage 34 intervient en 30 minutes, 7j/7, pour toutes vos urgences plomberie et serrurerie. Devis clair, artisans certifiés.";
-
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.elite-depannage-34.fr"),
-  title: TITLE,
-  description: DESCRIPTION,
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  alternates: {
+    types: { "text/markdown": `${SITE_URL}/markdown` },
+  },
   openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
-    url: "https://www.elite-depannage-34.fr",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
     siteName: "Élite Dépannage 34",
     locale: "fr_FR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
 };
 
