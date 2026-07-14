@@ -5,7 +5,6 @@ import { FileText, Phone, ShieldCheck, Umbrella, Zap } from "lucide-react";
 import Canvas3D from "@/components/sections/Canvas3D";
 import MagneticButton from "@/components/ui/MagneticButton";
 import PhoneLink from "@/components/ui/PhoneLink";
-import { cn } from "@/lib/utils";
 
 const EMERGENCY_PHONE_DISPLAY = "04 11 93 96 74";
 
@@ -17,18 +16,18 @@ const NOISE_BACKGROUND =
 // Faint dot grid, pure CSS (repeating radial-gradient) — no image asset.
 const DOT_GRID_BACKGROUND = "radial-gradient(circle, rgba(148,163,184,0.35) 1px, transparent 1.5px)";
 
-// Single source of truth for the reassurance badges. Rendered twice (mobile
-// row + desktop corners) from the same data so the two layouts can never
-// drift out of sync — `corner` only matters for the desktop layout.
+// Single source of truth for the reassurance badges — one unified cluster,
+// same markup and classes on every viewport. No `absolute` positioning, no
+// separate mobile/desktop variants to keep in sync.
 const REASSURANCES = [
-  { icon: Zap, label: "Intervention 30 min", corner: "lg:-top-4 lg:-left-6 xl:-left-14" },
-  { icon: ShieldCheck, label: "Artisans Certifiés", corner: "lg:-top-4 lg:-right-6 xl:-right-14" },
-  { icon: Umbrella, label: "Agréé Assurances", corner: "lg:-bottom-4 lg:-left-6 xl:-left-14" },
-  { icon: FileText, label: "Devis Gratuit", corner: "lg:-bottom-4 lg:-right-6 xl:-right-14" },
+  { icon: Zap, label: "Intervention 30 min" },
+  { icon: ShieldCheck, label: "Artisans Certifiés" },
+  { icon: Umbrella, label: "Agréé Assurances" },
+  { icon: FileText, label: "Devis Gratuit" },
 ] as const;
 
 const BADGE_CLASS =
-  "inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-cyan-500/30 bg-slate-900/40 px-4 py-2 text-sm text-cyan-50 shadow-lg backdrop-blur-md";
+  "flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap rounded-full border border-cyan-500/30 bg-slate-900/40 px-3 py-2 text-[11px] text-cyan-50 backdrop-blur-md sm:px-4 sm:text-sm";
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
@@ -65,21 +64,20 @@ export default function Hero() {
         style={{ backgroundImage: DOT_GRID_BACKGROUND, backgroundSize: "28px 28px" }}
       />
 
-      {/* Vignette : assombrit les bords/coins pour donner de la profondeur */}
+      {/* Vignette : assombrit les bords/coins en douceur, aucun bord net */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-[radial-gradient(ellipse_75%_60%_at_50%_50%,transparent_45%,rgba(2,6,23,0.65)_100%)]"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_75%_60%_at_50%_50%,transparent_45%,rgba(2,6,23,0.65)_100%)] blur-3xl"
       />
 
-      {/* Grain granuleux, adouci (flouté) pour éviter l'effet "glace brisée" */}
+      {/* Grain granuleux, très adouci pour éviter l'effet "glace brisée" */}
       <div
         aria-hidden
-        className="absolute inset-0 mix-blend-overlay opacity-[0.04] blur-3xl"
+        className="absolute inset-0 mix-blend-overlay opacity-5 blur-3xl"
         style={{ backgroundImage: NOISE_BACKGROUND }}
       />
 
-      {/* Halo doux façon ombre portée : remplace l'ancien accent 3D à bords
-          nets par un glow purement CSS, extrêmement flouté. */}
+      {/* Glow doux façon ombre portée derrière le texte : jamais de bord net */}
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 right-[8%] h-80 w-80 -translate-y-1/2 rounded-full bg-cyan-500/25 blur-[100px]"
@@ -91,16 +89,6 @@ export default function Hero() {
       <Canvas3D />
 
       <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center pt-24 text-center">
-        {/* Réassurances : encadrent le bloc de texte aux 4 coins sur desktop,
-            jamais collées aux bords de l'écran puisque positionnées relativement
-            à ce conteneur (lui-même centré, pas au viewport). */}
-        {REASSURANCES.map(({ icon: Icon, label, corner }) => (
-          <div key={label} className={cn(BADGE_CLASS, "absolute z-10 hidden lg:inline-flex", corner)}>
-            <Icon className="h-4 w-4 text-cyan-300" />
-            {label}
-          </div>
-        ))}
-
         <motion.h1
           {...fadeUp(0)}
           className="max-w-4xl text-balance text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_0_30px_rgba(34,211,238,0.25)] md:text-6xl lg:text-7xl"
@@ -137,11 +125,15 @@ export default function Hero() {
           </MagneticButton>
         </motion.div>
 
-        {/* Réassurances : ligne compacte sous le CTA sur mobile/tablette */}
-        <motion.div {...fadeUp(0.4)} className="mt-8 flex flex-wrap justify-center gap-3 lg:hidden">
+        {/* Grappe de réassurances unifiée : un seul conteneur, un seul jeu
+            de badges, strictement sous le CTA sur tous les viewports. */}
+        <motion.div
+          {...fadeUp(0.4)}
+          className="mx-auto mt-6 flex w-full max-w-3xl flex-wrap items-center justify-center gap-2 sm:mt-8 sm:gap-4"
+        >
           {REASSURANCES.map(({ icon: Icon, label }) => (
             <span key={label} className={BADGE_CLASS}>
-              <Icon className="h-4 w-4 text-cyan-300" />
+              <Icon className="h-4 w-4 shrink-0 text-cyan-300" />
               {label}
             </span>
           ))}

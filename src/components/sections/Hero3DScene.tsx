@@ -2,7 +2,6 @@
 
 import { useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Sparkles } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
 
@@ -132,12 +131,11 @@ export default function Hero3DScene() {
       gl={{ antialias: false, powerPreference: "high-performance" }}
       camera={{ position: [0, 0, 5], fov: 45 }}
     >
+      {/* No discrete particle system (Sparkles) here on purpose: any
+          per-particle twinkle can occasionally flash bright enough to read
+          as a stray dot artifact. The fluid backdrop alone is calmer and
+          guarantees there's nothing punctual left to look like a bug. */}
       <FluidBackdrop />
-      {/* Scale/position keep every particle well clear of the very top of
-          the frame (behind the fixed header) and the left/right edges, so
-          none of them ever reads as a stray bright dot poking out of the
-          section. */}
-      <Sparkles count={40} scale={[6.5, 2.8, 4]} position={[0, -0.4, 0]} size={2} speed={0.25} color="#67e8f9" opacity={0.4} />
 
       <EffectComposer>
         <Bloom intensity={0.25} luminanceThreshold={0.3} luminanceSmoothing={0.9} mipmapBlur />

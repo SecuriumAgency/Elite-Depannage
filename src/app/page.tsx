@@ -52,13 +52,6 @@ const SERRURERIE_DETAILS = [
   "Duplication de clés sécurisées",
 ];
 
-const TRUST_ITEMS = [
-  "Agréé Assurances",
-  "Devis Gratuit Avant Travaux",
-  "Tarifs Transparents",
-  "Garantie Pièces et Main d'Œuvre",
-];
-
 const KPIS = [
   { value: "+ de 500", label: "interventions", z: 30, offset: 0 },
   { value: "100%", label: "satisfaction", z: 20, offset: 16 },
@@ -89,25 +82,7 @@ export default function Home() {
       {/* 1. HERO */}
       <Hero />
 
-      {/* 2. TRUST BAR */}
-      <section className="relative border-y border-white/10 bg-white/5 py-6 backdrop-blur-md">
-        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 px-6 text-center sm:grid-cols-4">
-          {TRUST_ITEMS.map((item, i) => (
-            <motion.p
-              key={item}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
-              className="text-sm font-semibold text-slate-200"
-            >
-              {item}
-            </motion.p>
-          ))}
-        </div>
-      </section>
-
-      {/* 3. SERVICES */}
+      {/* 2. SERVICES */}
       <section id="services" className="relative scroll-mt-24 px-6 py-24">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
