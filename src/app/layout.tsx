@@ -53,6 +53,15 @@ export default function RootLayout({
       lang="fr"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        {/* Preconnect to the gtag/Google Ads origins discovered by Lighthouse
+            (~294ms estimated LCP saving each) so the connection handshake
+            happens during parsing instead of when the afterInteractive
+            script actually fires. */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google.com" />
+        <link rel="preconnect" href="https://ad.doubleclick.net" />
+      </head>
       <body className="min-h-full flex flex-col bg-slate-950 text-slate-50">
         <script
           type="application/ld+json"

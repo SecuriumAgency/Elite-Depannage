@@ -23,9 +23,15 @@ const BADGES = [
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
+  // No `opacity` here on purpose: Framer Motion renders its `initial` state
+  // inline in the SSR/SSG HTML itself, so an opacity:0 start hides the H1
+  // (the page's LCP element) until React hydrates and the animation runs —
+  // measured as a ~1.8s "element render delay" gating LCP on throttled
+  // mobile. Animating only `y` keeps the text fully painted from first
+  // render while still sliding elegantly into place.
   const fadeUp = (delay: number) => ({
-    initial: shouldReduceMotion ? false : { opacity: 0, y: 30 },
-    animate: { opacity: 1, y: 0 },
+    initial: shouldReduceMotion ? false : { y: 30 },
+    animate: { y: 0 },
     transition: { type: "spring" as const, stiffness: 120, damping: 18, mass: 0.9, delay },
   });
 
