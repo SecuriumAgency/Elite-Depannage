@@ -21,20 +21,20 @@ export const LEGAL_PAGES: LegalPage[] = [
           "Le site www.elite-depannage-34.fr est édité par Élite Dépannage 34.",
         ],
         list: [
-          "Forme juridique : [à compléter]",
-          "Siège social : [à compléter]",
-          "SIRET : [à compléter]",
+          "Forme juridique : SASU",
+          "Siège social : [À COMPLÉTER]",
+          "SIRET : 100 136 134 00010",
           "Téléphone : 04 11 93 96 74",
-          "Directeur de la publication : [à compléter]",
+          "Directeur de la publication : Securium Web Agency",
         ],
       },
       {
         heading: "Hébergement",
         paragraphs: ["Ce site est hébergé par :"],
         list: [
-          "IONOS SARL",
-          "7 place de la Gare, 57200 Sarreguemines, France",
-          "Site web : ionos.fr",
+          "Vercel Inc.",
+          "340 S Lemon Ave #4133, Walnut, CA 91789, USA",
+          "Site web : vercel.com",
         ],
       },
       {
@@ -47,6 +47,12 @@ export const LEGAL_PAGES: LegalPage[] = [
         heading: "Limitation de responsabilité",
         paragraphs: [
           "Élite Dépannage 34 s'efforce de fournir des informations aussi précises que possible sur ce site. Elle ne pourra toutefois être tenue responsable des omissions, inexactitudes ou carences dans la mise à jour, qu'elles soient de son fait ou du fait de tiers partenaires.",
+        ],
+      },
+      {
+        heading: "Données personnelles (RGPD)",
+        paragraphs: [
+          "Les données personnelles collectées via ce site (formulaires de contact, demande de rappel) sont traitées conformément au Règlement Général sur la Protection des Données (RGPD). Pour le détail des données collectées, leur finalité, leur durée de conservation et les modalités d'exercice de vos droits, consultez notre page dédiée Politique de confidentialité et notre page RGPD — Conformité CNIL.",
         ],
       },
     ],

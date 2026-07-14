@@ -21,6 +21,7 @@ export async function generateMetadata({
   return {
     // Root layout's title.template already appends " | Élite Dépannage 34".
     title: page.title,
+    robots: "noindex, follow",
     alternates: {
       types: { "text/markdown": `${SITE_URL}/legal/${slug}/markdown` },
     },
@@ -54,7 +55,7 @@ export default async function LegalPage({
         <div className="mt-12 space-y-10">
           {page.sections.map((section) => (
             <section key={section.heading}>
-              <h2 className="text-xl font-bold text-white">{section.heading}</h2>
+              <h2 className="text-xl font-semibold text-cyan-400">{section.heading}</h2>
               <div className="mt-3 space-y-3 text-slate-400">
                 {section.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
