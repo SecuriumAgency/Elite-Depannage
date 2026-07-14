@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Phone, ShieldCheck, Zap } from "lucide-react";
 import Canvas3D from "@/components/sections/Canvas3D";
@@ -24,6 +25,25 @@ const BADGES = [
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
+  // The badges are CSS-hidden below `lg` (`hidden lg:flex`), but a
+  // `repeat: Infinity` Framer Motion animation keeps ticking via
+  // requestAnimationFrame regardless of display:none — burning main-thread
+  // time forever on mobile for an animation nobody sees. Measured: this
+  // alone pushed mobile LCP from 2.0s back up to 4.4s. Only mount the
+  // badges (and their animation loop) once we know we're on a large
+  // viewport, matching the `matchMedia` gating convention used by
+  // CustomCursor/SmoothScroll/Canvas3D elsewhere in this codebase.
+  const [showBadges, setShowBadges] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    // One-time client-only capability check: matchMedia doesn't exist during
+    // SSR, so the real value can only be read after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setShowBadges(mq.matches);
+    const handleChange = (e: MediaQueryListEvent) => setShowBadges(e.matches);
+    mq.addEventListener("change", handleChange);
+    return () => mq.removeEventListener("change", handleChange);
+  }, []);
   // No `opacity` here on purpose: Framer Motion renders its `initial` state
   // inline in the SSR/SSG HTML itself, so an opacity:0 start hides the H1
   // (the page's LCP element) until React hydrates and the animation runs —
@@ -75,30 +95,31 @@ export default function Hero() {
           final sur mobile et l'état affiché le temps du chargement idle. */}
       <Canvas3D />
 
-      {BADGES.map(({ icon: Icon, label, position }, i) => {
-        const floatDelay = 0.5 + i * 0.15;
-        return (
-          <motion.div
-            key={label}
-            initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.9, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: shouldReduceMotion ? 0 : [10, -10, 10] }}
-            transition={{
-              opacity: { duration: 0.4, delay: floatDelay },
-              scale: { type: "spring", stiffness: 140, damping: 16, delay: floatDelay },
-              y: shouldReduceMotion
-                ? { duration: 0 }
-                : { duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: floatDelay },
-            }}
-            className={cn(
-              "absolute z-10 hidden items-center gap-2 rounded-2xl border border-cyan-500/30 bg-slate-900/20 px-4 py-3 shadow-xl backdrop-blur-2xl lg:flex",
-              position
-            )}
-          >
-            <Icon className="h-5 w-5 text-cyan-400" />
-            <span className="text-sm font-semibold text-white">{label}</span>
-          </motion.div>
-        );
-      })}
+      {showBadges &&
+        BADGES.map(({ icon: Icon, label, position }, i) => {
+          const floatDelay = 0.5 + i * 0.15;
+          return (
+            <motion.div
+              key={label}
+              initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.9, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: shouldReduceMotion ? 0 : [10, -10, 10] }}
+              transition={{
+                opacity: { duration: 0.4, delay: floatDelay },
+                scale: { type: "spring", stiffness: 140, damping: 16, delay: floatDelay },
+                y: shouldReduceMotion
+                  ? { duration: 0 }
+                  : { duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: floatDelay },
+              }}
+              className={cn(
+                "absolute z-10 flex items-center gap-2 rounded-2xl border border-cyan-500/30 bg-slate-900/20 px-4 py-3 shadow-xl backdrop-blur-2xl",
+                position
+              )}
+            >
+              <Icon className="h-5 w-5 text-cyan-400" />
+              <span className="text-sm font-semibold text-white">{label}</span>
+            </motion.div>
+          );
+        })}
 
       <div className="relative z-10 flex flex-col items-center text-center pt-24">
         <motion.h1
