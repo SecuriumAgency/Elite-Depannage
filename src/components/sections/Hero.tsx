@@ -12,7 +12,7 @@ const EMERGENCY_PHONE_DISPLAY = "04 11 93 96 74";
 // Self-contained fractal-noise SVG (no extra asset/request) used to break up
 // the flat overlay gradient and keep the background photoreal at 4% opacity.
 const NOISE_BACKGROUND =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/rect%3E%3C/svg%3E\")";
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
 const BADGES = [
   { icon: Zap, label: "Intervention 30 min", position: "left-[6%] top-[26%]" },
@@ -28,7 +28,7 @@ export default function Hero() {
   });
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
+    <section className="relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
       <Image
         src="/images/vitrine-elite.png"
         alt="Techniciens Élite Dépannage 34 souriants devant leur véhicule d'intervention, prêts à intervenir dans l'Hérault"
@@ -38,10 +38,19 @@ export default function Hero() {
         className="absolute inset-0 z-[-3] h-full w-full object-cover"
       />
 
-      {/* Assombrissement pour garantir le contraste WCAG des textes */}
+      {/* Voile léger, plus sombre en bas, qui laisse respirer la photo.
+          rgba() littéral plutôt que les utilitaires from-/via-/to- : ces derniers
+          interpolent en oklab en Tailwind v4, ce qui rend des noirs quasi-transparents
+          bien plus opaques que l'alpha annoncé une fois composités sur la photo. */}
       <div
         aria-hidden
-        className="absolute inset-0 z-[-2] bg-gradient-to-b from-[#0B1120]/85 via-slate-900/70 to-slate-950/90"
+        className="absolute inset-0 z-[-2] bg-[linear-gradient(to_bottom,rgba(11,17,32,0.40)_0%,rgba(15,23,42,0.30)_50%,rgba(2,6,23,0.70)_100%)]"
+      />
+
+      {/* Vignette localisée derrière le bloc de texte pour le contraste, sans laver toute la photo */}
+      <div
+        aria-hidden
+        className="absolute inset-0 z-[-2] bg-[radial-gradient(ellipse_65%_55%_at_50%_45%,rgba(2,6,23,0.55),transparent_70%)]"
       />
 
       {/* Halo cyan subtil au centre pour éclairer le texte principal */}
