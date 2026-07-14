@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Phone, ShieldCheck, Zap } from "lucide-react";
+import { FileText, Phone, ShieldCheck, Umbrella, Zap } from "lucide-react";
 import Canvas3D from "@/components/sections/Canvas3D";
 import MagneticButton from "@/components/ui/MagneticButton";
 import PhoneLink from "@/components/ui/PhoneLink";
@@ -18,32 +17,21 @@ const NOISE_BACKGROUND =
 // Faint dot grid, pure CSS (repeating radial-gradient) — no image asset.
 const DOT_GRID_BACKGROUND = "radial-gradient(circle, rgba(148,163,184,0.35) 1px, transparent 1.5px)";
 
-const BADGES = [
-  { icon: Zap, label: "Intervention 30 min", position: "left-[4%] top-[20%] lg:left-[10%]" },
-  { icon: ShieldCheck, label: "Artisans Certifiés", position: "right-[4%] bottom-[16%] lg:right-[12%]" },
+// Single source of truth for the reassurance badges. Rendered twice (mobile
+// row + desktop corners) from the same data so the two layouts can never
+// drift out of sync — `corner` only matters for the desktop layout.
+const REASSURANCES = [
+  { icon: Zap, label: "Intervention 30 min", corner: "lg:-top-4 lg:-left-6 xl:-left-14" },
+  { icon: ShieldCheck, label: "Artisans Certifiés", corner: "lg:-top-4 lg:-right-6 xl:-right-14" },
+  { icon: Umbrella, label: "Agréé Assurances", corner: "lg:-bottom-4 lg:-left-6 xl:-left-14" },
+  { icon: FileText, label: "Devis Gratuit", corner: "lg:-bottom-4 lg:-right-6 xl:-right-14" },
 ] as const;
+
+const BADGE_CLASS =
+  "inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-cyan-500/30 bg-slate-900/40 px-4 py-2 text-sm text-cyan-50 shadow-lg backdrop-blur-md";
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
-  // The badges are CSS-hidden below `lg` (`hidden lg:flex`), but a
-  // `repeat: Infinity` Framer Motion animation keeps ticking via
-  // requestAnimationFrame regardless of display:none — burning main-thread
-  // time forever on mobile for an animation nobody sees. Measured: this
-  // alone pushed mobile LCP from 2.0s back up to 4.4s. Only mount the
-  // badges (and their animation loop) once we know we're on a large
-  // viewport, matching the `matchMedia` gating convention used by
-  // CustomCursor/SmoothScroll/Canvas3D elsewhere in this codebase.
-  const [showBadges, setShowBadges] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    // One-time client-only capability check: matchMedia doesn't exist during
-    // SSR, so the real value can only be read after mount.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setShowBadges(mq.matches);
-    const handleChange = (e: MediaQueryListEvent) => setShowBadges(e.matches);
-    mq.addEventListener("change", handleChange);
-    return () => mq.removeEventListener("change", handleChange);
-  }, []);
   // No `opacity` here on purpose: Framer Motion renders its `initial` state
   // inline in the SSR/SSG HTML itself, so an opacity:0 start hides the H1
   // (the page's LCP element) until React hydrates and the animation runs —
@@ -83,11 +71,18 @@ export default function Hero() {
         className="absolute inset-0 bg-[radial-gradient(ellipse_75%_60%_at_50%_50%,transparent_45%,rgba(2,6,23,0.65)_100%)]"
       />
 
-      {/* Grain granuleux, aspect texturé premium */}
+      {/* Grain granuleux, adouci (flouté) pour éviter l'effet "glace brisée" */}
       <div
         aria-hidden
-        className="absolute inset-0 mix-blend-overlay opacity-[0.05]"
+        className="absolute inset-0 mix-blend-overlay opacity-[0.04] blur-3xl"
         style={{ backgroundImage: NOISE_BACKGROUND }}
+      />
+
+      {/* Halo doux façon ombre portée : remplace l'ancien accent 3D à bords
+          nets par un glow purement CSS, extrêmement flouté. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 right-[8%] h-80 w-80 -translate-y-1/2 rounded-full bg-cyan-500/25 blur-[100px]"
       />
 
       {/* Scène 3D premium (desktop uniquement) : recouvre naturellement les
@@ -95,33 +90,17 @@ export default function Hero() {
           final sur mobile et l'état affiché le temps du chargement idle. */}
       <Canvas3D />
 
-      {showBadges &&
-        BADGES.map(({ icon: Icon, label, position }, i) => {
-          const floatDelay = 0.5 + i * 0.15;
-          return (
-            <motion.div
-              key={label}
-              initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.9, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: shouldReduceMotion ? 0 : [10, -10, 10] }}
-              transition={{
-                opacity: { duration: 0.4, delay: floatDelay },
-                scale: { type: "spring", stiffness: 140, damping: 16, delay: floatDelay },
-                y: shouldReduceMotion
-                  ? { duration: 0 }
-                  : { duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: floatDelay },
-              }}
-              className={cn(
-                "absolute z-10 flex items-center gap-2 rounded-2xl border border-cyan-500/30 bg-slate-900/20 px-4 py-3 shadow-xl backdrop-blur-2xl",
-                position
-              )}
-            >
-              <Icon className="h-5 w-5 text-cyan-400" />
-              <span className="text-sm font-semibold text-white">{label}</span>
-            </motion.div>
-          );
-        })}
+      <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center pt-24 text-center">
+        {/* Réassurances : encadrent le bloc de texte aux 4 coins sur desktop,
+            jamais collées aux bords de l'écran puisque positionnées relativement
+            à ce conteneur (lui-même centré, pas au viewport). */}
+        {REASSURANCES.map(({ icon: Icon, label, corner }) => (
+          <div key={label} className={cn(BADGE_CLASS, "absolute z-10 hidden lg:inline-flex", corner)}>
+            <Icon className="h-4 w-4 text-cyan-300" />
+            {label}
+          </div>
+        ))}
 
-      <div className="relative z-10 flex flex-col items-center text-center pt-24">
         <motion.h1
           {...fadeUp(0)}
           className="max-w-4xl text-balance text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_0_30px_rgba(34,211,238,0.25)] md:text-6xl lg:text-7xl"
@@ -156,6 +135,16 @@ export default function Hero() {
               </PhoneLink>
             </div>
           </MagneticButton>
+        </motion.div>
+
+        {/* Réassurances : ligne compacte sous le CTA sur mobile/tablette */}
+        <motion.div {...fadeUp(0.4)} className="mt-8 flex flex-wrap justify-center gap-3 lg:hidden">
+          {REASSURANCES.map(({ icon: Icon, label }) => (
+            <span key={label} className={BADGE_CLASS}>
+              <Icon className="h-4 w-4 text-cyan-300" />
+              {label}
+            </span>
+          ))}
         </motion.div>
       </div>
     </section>

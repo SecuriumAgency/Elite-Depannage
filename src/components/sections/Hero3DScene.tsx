@@ -2,7 +2,7 @@
 
 import { useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment, Lightformer, MeshDistortMaterial, Sparkles } from "@react-three/drei";
+import { Sparkles } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
 
@@ -41,7 +41,7 @@ const fragmentShader = `
   float fbm(vec2 p) {
     float value = 0.0;
     float amplitude = 0.5;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 3; i++) {
       value += amplitude * noise(p);
       p *= 2.0;
       amplitude *= 0.5;
@@ -54,27 +54,32 @@ const fragmentShader = `
     vec2 aspectUv = (uv - 0.5) * vec2(uResolution.x / uResolution.y, 1.0);
 
     vec2 mouseOffset = uMouse * 0.15;
-    vec2 flow = aspectUv * 2.2 + mouseOffset;
+    // Lower frequency flow: bigger, calmer swells instead of busy ripples.
+    vec2 flow = aspectUv * 1.3 + mouseOffset;
 
     float t = uTime * 0.05;
     float n1 = fbm(flow + vec2(t, -t * 0.7));
     float n2 = fbm(flow * 1.8 - vec2(-t * 0.5, t * 0.9) + n1 * 0.6);
-    float fluid = mix(n1, n2, 0.5);
+    // smoothstep compresses the blend range so light/dark patches fade into
+    // each other gradually instead of mottling sharply ("broken ice" look).
+    float fluid = smoothstep(0.15, 0.85, mix(n1, n2, 0.5));
 
     vec3 deep = vec3(0.008, 0.016, 0.04);
-    vec3 water = vec3(0.02, 0.08, 0.13);
+    vec3 water = vec3(0.02, 0.07, 0.11);
     vec3 base = mix(deep, water, fluid);
 
-    float e = 0.01;
+    float e = 0.02;
     float nx = fbm(flow + vec2(e, 0.0)) - fbm(flow - vec2(e, 0.0));
     float ny = fbm(flow + vec2(0.0, e)) - fbm(flow - vec2(0.0, e));
     vec2 grad = vec2(nx, ny) / (2.0 * e);
 
     vec3 lightDir = normalize(vec3(uMouse * 0.6, 1.0));
-    float highlight = pow(clamp(dot(normalize(vec3(grad, 1.0)), lightDir), 0.0, 1.0), 6.0);
+    // Wider, much fainter highlight: a soft sheen rather than scattered
+    // sharp glints.
+    float highlight = pow(clamp(dot(normalize(vec3(grad, 1.0)), lightDir), 0.0, 1.0), 10.0);
 
-    vec3 metal = vec3(0.4, 0.75, 0.85);
-    vec3 color = base + metal * highlight * 0.7;
+    vec3 metal = vec3(0.35, 0.65, 0.75);
+    vec3 color = base + metal * highlight * 0.3;
 
     float vignette = smoothstep(1.15, 0.25, length(aspectUv));
     color *= vignette;
@@ -120,55 +125,6 @@ function FluidBackdrop() {
   );
 }
 
-// The "métal/serrurerie" half: a distorted, high-metalness core that drifts
-// toward the pointer for a soft parallax feel — abstract rather than a
-// literal key/lock model, which would need real geometry authoring.
-function MetallicCore() {
-  const groupRef = useRef<THREE.Group>(null);
-  const spin = useRef(0);
-
-  useFrame((state, delta) => {
-    spin.current += delta * 0.12;
-    const group = groupRef.current;
-    if (!group) return;
-    const { pointer } = state;
-    group.rotation.y = spin.current + pointer.x * 0.25;
-    group.rotation.x = THREE.MathUtils.lerp(group.rotation.x, pointer.y * 0.15, 0.05);
-    group.position.x = THREE.MathUtils.lerp(group.position.x, pointer.x * 0.35, 0.03);
-    group.position.y = THREE.MathUtils.lerp(group.position.y, pointer.y * 0.2, 0.03);
-  });
-
-  return (
-    // Offset to the side and pushed back so it reads as a depth accent
-    // beside the headline rather than a giant shape blocking it.
-    <group ref={groupRef} position={[2.4, -0.3, -1]}>
-      <mesh>
-        <icosahedronGeometry args={[0.85, 16]} />
-        <MeshDistortMaterial
-          color="#134e5e"
-          metalness={0.85}
-          roughness={0.25}
-          distort={0.3}
-          speed={1.3}
-        />
-      </mesh>
-    </group>
-  );
-}
-
-// Procedural studio lighting for the metallic core's reflections — built
-// entirely from in-scene light panels (no external HDRI fetch), keeping
-// this a zero-network-request enhancement.
-function StudioEnvironment() {
-  return (
-    <Environment resolution={256} frames={1}>
-      <Lightformer form="rect" color="#06b6d4" intensity={4} position={[-3, 2, 2]} scale={[3, 3, 1]} />
-      <Lightformer form="rect" color="#38bdf8" intensity={2.5} position={[3, -1, 1]} scale={[2, 4, 1]} />
-      <Lightformer form="ring" color="#e0f2fe" intensity={1.5} position={[0, 3, -2]} scale={4} />
-    </Environment>
-  );
-}
-
 export default function Hero3DScene() {
   return (
     <Canvas
@@ -176,18 +132,15 @@ export default function Hero3DScene() {
       gl={{ antialias: false, powerPreference: "high-performance" }}
       camera={{ position: [0, 0, 5], fov: 45 }}
     >
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[3, 4, 5]} intensity={0.5} color="#e0f2fe" />
-      <pointLight position={[-3, 1, 3]} intensity={14} color="#06b6d4" />
-      <pointLight position={[3, -1, 2]} intensity={10} color="#1d4ed8" />
-
-      <StudioEnvironment />
       <FluidBackdrop />
-      <MetallicCore />
-      <Sparkles count={60} scale={[8, 5, 4]} size={2.5} speed={0.3} color="#67e8f9" opacity={0.5} />
+      {/* Scale/position keep every particle well clear of the very top of
+          the frame (behind the fixed header) and the left/right edges, so
+          none of them ever reads as a stray bright dot poking out of the
+          section. */}
+      <Sparkles count={40} scale={[6.5, 2.8, 4]} position={[0, -0.4, 0]} size={2} speed={0.25} color="#67e8f9" opacity={0.4} />
 
       <EffectComposer>
-        <Bloom intensity={0.3} luminanceThreshold={0.3} luminanceSmoothing={0.9} mipmapBlur />
+        <Bloom intensity={0.25} luminanceThreshold={0.3} luminanceSmoothing={0.9} mipmapBlur />
       </EffectComposer>
     </Canvas>
   );
