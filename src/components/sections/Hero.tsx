@@ -115,10 +115,10 @@ export default function Hero() {
                 className="absolute inset-0 rounded-full bg-cyan-400 opacity-0 blur-xl transition-opacity duration-300 group-hover:animate-pulse group-hover:opacity-70"
               />
               <PhoneLink
-                aria-label={`Appel d'urgence immédiat au ${EMERGENCY_PHONE_DISPLAY}`}
+                aria-label={`Appeler un artisan en urgence au ${EMERGENCY_PHONE_DISPLAY}`}
                 className="relative inline-flex min-h-[64px] items-center gap-3 rounded-full bg-cyan-500 px-10 py-5 text-lg font-bold text-slate-950 shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-[0_0_30px_rgba(6,182,212,0.5)]"
               >
-                <Phone className="h-6 w-6" />
+                <Phone className="h-6 w-6" aria-hidden="true" />
                 Appel d&apos;Urgence Immédiat
               </PhoneLink>
             </div>
@@ -133,7 +133,7 @@ export default function Hero() {
         >
           {REASSURANCES.map(({ icon: Icon, label }) => (
             <span key={label} className={BADGE_CLASS}>
-              <Icon className="h-4 w-4 shrink-0 text-cyan-300" />
+              <Icon className="h-4 w-4 shrink-0 text-cyan-300" aria-hidden="true" />
               {label}
             </span>
           ))}

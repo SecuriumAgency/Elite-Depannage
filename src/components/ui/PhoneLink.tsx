@@ -3,7 +3,7 @@
 import type { AnchorHTMLAttributes } from "react";
 import { reportPhoneCallConversion } from "@/lib/gtag";
 
-const PHONE_HREF = "tel:0411939674";
+const PHONE_HREF = "tel:+33411939674";
 
 type PhoneLinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
 

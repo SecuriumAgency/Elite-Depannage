@@ -1,6 +1,6 @@
 export const SITE_URL = "https://www.elite-depannage-34.fr";
 
-export const SITE_TITLE = "Élite Dépannage 34 | Plomberie & Serrurerie d'Urgence";
+export const SITE_TITLE = "Élite Dépannage 34 | Plombier & Serrurier d'Urgence Hérault";
 
 export const SITE_DESCRIPTION =
-  "Fuite, panne ou porte claquée dans l'Hérault ? Élite Dépannage 34 intervient en 30 minutes, 7j/7, pour toutes vos urgences plomberie et serrurerie. Devis clair, artisans certifiés.";
+  "Intervention d'urgence en 30 minutes dans l'Hérault. Plombiers et serruriers certifiés, disponibles 24h/24 et 7j/7.";
