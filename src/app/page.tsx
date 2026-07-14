@@ -308,7 +308,7 @@ export default function Home() {
               </div>
               <p className="mt-4 text-sm text-slate-300">&ldquo;{t.text}&rdquo;</p>
               <p className="mt-4 text-sm font-semibold text-slate-100">
-                {t.name} <span className="text-slate-500 font-normal">— {t.city}</span>
+                {t.name} <span className="text-slate-400 font-normal">— {t.city}</span>
               </p>
             </motion.div>
           ))}

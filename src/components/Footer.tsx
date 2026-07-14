@@ -37,7 +37,7 @@ export default function Footer() {
               <Phone className="h-4 w-4" />
               04 11 93 96 74
             </PhoneLink>
-            <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-slate-500">
+            <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-slate-400">
               <MapPin className="h-3.5 w-3.5" /> Intervention dans tout l&apos;Hérault
             </p>
           </div>
@@ -91,7 +91,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col items-center justify-center gap-4 border-t border-white/10 pt-8 text-xs text-slate-500">
+        <div className="mt-16 flex flex-col items-center justify-center gap-4 border-t border-white/10 pt-8 text-xs text-slate-400">
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             <p>© {new Date().getFullYear()} Élite Dépannage 34. Tous droits réservés.</p>
             <p>Artisans certifiés — Devis gratuit avant travaux</p>
