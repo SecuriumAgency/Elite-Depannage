@@ -22,10 +22,11 @@ export const LEGAL_PAGES: LegalPage[] = [
         ],
         list: [
           "Forme juridique : SASU",
-          "Siège social : [À COMPLÉTER]",
+          "Dénomination sociale : Nord Express",
+          "Siège social :",
           "SIRET : 100 136 134 00010",
           "Téléphone : 04 11 93 96 74",
-          "Directeur de la publication : Securium Web Agency",
+          "Directeur de la publication : Securium Web Agency (SIRET : 942 496 571 00012)",
         ],
       },
       {
