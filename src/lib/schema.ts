@@ -1,4 +1,5 @@
 import { SEO_CITIES, type Metier } from "@/lib/cities";
+import { SITE_DESCRIPTION } from "@/lib/site";
 
 const BASE_URL = "https://www.elite-depannage-34.fr";
 const PHONE = "+33411939674";
@@ -22,6 +23,7 @@ export function getLocalBusinessSchema() {
     name: NAME,
     url: BASE_URL,
     image: `${BASE_URL}/opengraph-image`,
+    description: SITE_DESCRIPTION,
     telephone: PHONE,
     priceRange: "€€",
     // NOTE: no `address` field — no verified street address (SIRET/siège social)
