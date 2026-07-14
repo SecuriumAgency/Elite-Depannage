@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { Phone, ShieldCheck, Zap } from "lucide-react";
+import Canvas3D from "@/components/sections/Canvas3D";
 import MagneticButton from "@/components/ui/MagneticButton";
 import PhoneLink from "@/components/ui/PhoneLink";
 import { cn } from "@/lib/utils";
@@ -69,26 +70,40 @@ export default function Hero() {
         style={{ backgroundImage: NOISE_BACKGROUND }}
       />
 
-      {BADGES.map(({ icon: Icon, label, position }, i) => (
-        <motion.div
-          key={label}
-          initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.9, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ type: "spring", stiffness: 140, damping: 16, delay: 0.5 + i * 0.15 }}
-          className={cn(
-            "absolute z-10 hidden items-center gap-2 rounded-2xl border border-slate-600/50 bg-slate-800/30 px-4 py-3 shadow-xl backdrop-blur-md lg:flex",
-            position
-          )}
-        >
-          <Icon className="h-5 w-5 text-cyan-400" />
-          <span className="text-sm font-semibold text-white">{label}</span>
-        </motion.div>
-      ))}
+      {/* Scène 3D premium (desktop uniquement) : recouvre naturellement les
+          calques CSS ci-dessus une fois montée ; ceux-ci restent le rendu
+          final sur mobile et l'état affiché le temps du chargement idle. */}
+      <Canvas3D />
+
+      {BADGES.map(({ icon: Icon, label, position }, i) => {
+        const floatDelay = 0.5 + i * 0.15;
+        return (
+          <motion.div
+            key={label}
+            initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: shouldReduceMotion ? 0 : [10, -10, 10] }}
+            transition={{
+              opacity: { duration: 0.4, delay: floatDelay },
+              scale: { type: "spring", stiffness: 140, damping: 16, delay: floatDelay },
+              y: shouldReduceMotion
+                ? { duration: 0 }
+                : { duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: floatDelay },
+            }}
+            className={cn(
+              "absolute z-10 hidden items-center gap-2 rounded-2xl border border-cyan-500/30 bg-slate-900/20 px-4 py-3 shadow-xl backdrop-blur-2xl lg:flex",
+              position
+            )}
+          >
+            <Icon className="h-5 w-5 text-cyan-400" />
+            <span className="text-sm font-semibold text-white">{label}</span>
+          </motion.div>
+        );
+      })}
 
       <div className="relative z-10 flex flex-col items-center text-center pt-24">
         <motion.h1
           {...fadeUp(0)}
-          className="max-w-4xl text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_0_30px_rgba(34,211,238,0.25)] md:text-6xl lg:text-7xl"
+          className="max-w-4xl text-balance text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_0_30px_rgba(34,211,238,0.25)] md:text-6xl lg:text-7xl"
         >
           Intervention d&apos;Urgence dans l&apos;Hérault (34){" "}
           <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
@@ -106,13 +121,19 @@ export default function Hero() {
 
         <motion.div {...fadeUp(0.3)} className="mt-10">
           <MagneticButton>
-            <PhoneLink
-              aria-label={`Appel d'urgence immédiat au ${EMERGENCY_PHONE_DISPLAY}`}
-              className="inline-flex min-h-[64px] items-center gap-3 rounded-full bg-cyan-500 px-10 py-5 text-lg font-bold text-slate-950 shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-[0_0_30px_rgba(6,182,212,0.5)]"
-            >
-              <Phone className="h-6 w-6" />
-              Appel d&apos;Urgence Immédiat
-            </PhoneLink>
+            <div className="group relative">
+              <span
+                aria-hidden
+                className="absolute inset-0 rounded-full bg-cyan-400 opacity-0 blur-xl transition-opacity duration-300 group-hover:animate-pulse group-hover:opacity-70"
+              />
+              <PhoneLink
+                aria-label={`Appel d'urgence immédiat au ${EMERGENCY_PHONE_DISPLAY}`}
+                className="relative inline-flex min-h-[64px] items-center gap-3 rounded-full bg-cyan-500 px-10 py-5 text-lg font-bold text-slate-950 shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-[0_0_30px_rgba(6,182,212,0.5)]"
+              >
+                <Phone className="h-6 w-6" />
+                Appel d&apos;Urgence Immédiat
+              </PhoneLink>
+            </div>
           </MagneticButton>
         </motion.div>
       </div>

@@ -10,21 +10,15 @@ import PhoneLink from "@/components/ui/PhoneLink";
 
 // Ambient, non-critical globals: excluded from SSR entirely and code-split
 // into their own client chunks so they never delay the initial HTML/LCP.
+// The site-wide WebGL ambiance canvas has been replaced by a Hero-scoped
+// scene (see components/sections/Canvas3D.tsx) to avoid running two WebGL
+// contexts at once.
 const SmoothScroll = dynamic(() => import("@/components/SmoothScroll"), {
   ssr: false,
 });
 const CustomCursor = dynamic(() => import("@/components/ui/CustomCursor"), {
   ssr: false,
 });
-const BackgroundCanvas = dynamic(
-  () => import("@/components/ui/BackgroundCanvas"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="fixed inset-0 -z-[1] bg-gradient-to-b from-slate-950 to-slate-900" />
-    ),
-  }
-);
 
 const NAV_LINKS = [
   { label: "Services", href: "#services" },
@@ -40,7 +34,6 @@ export default function Header() {
   return (
     <>
       <SmoothScroll />
-      <BackgroundCanvas />
       <CustomCursor />
       <header className="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/10">
         <div className="flex items-center justify-between w-full px-4 py-3 md:px-8">
