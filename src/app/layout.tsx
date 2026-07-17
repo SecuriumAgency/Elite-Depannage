@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import StickyCallButton from "@/components/ui/StickyCallButton";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 import { getLocalBusinessSchema } from "@/lib/schema";
 import { GOOGLE_ADS_ID } from "@/lib/gtag";
@@ -62,7 +63,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.google.com" />
         <link rel="preconnect" href="https://ad.doubleclick.net" />
       </head>
-      <body className="min-h-full flex flex-col bg-slate-950 text-slate-50">
+      <body className="min-h-full flex flex-col bg-slate-950 text-slate-50 pb-16 lg:pb-0">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -84,6 +85,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <StickyCallButton />
       </body>
     </html>
   );
