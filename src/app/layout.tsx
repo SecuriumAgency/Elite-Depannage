@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
@@ -7,6 +8,7 @@ import StickyCallButton from "@/components/ui/StickyCallButton";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 import { getLocalBusinessSchema } from "@/lib/schema";
 import { GOOGLE_ADS_ID } from "@/lib/gtag";
+import { GTM_IDS, TenantDomain } from "@/lib/gtmConfig";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -44,11 +46,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const host = headersList.get("host") || "";
+  const gtmId = GTM_IDS[host as TenantDomain];
+
   return (
     <html
       lang="fr"
@@ -62,8 +68,31 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google.com" />
         <link rel="preconnect" href="https://ad.doubleclick.net" />
+        {gtmId && (
+          <Script
+            id="gtm-script"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','${gtmId}');`,
+            }}
+          />
+        )}
       </head>
       <body className="min-h-full flex flex-col bg-slate-950 text-slate-50 pb-16 lg:pb-0">
+        {gtmId && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            />
+          </noscript>
+        )}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
