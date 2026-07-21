@@ -116,6 +116,7 @@ export default function Hero() {
               />
               <PhoneLink
                 aria-label={`Appeler un artisan en urgence au ${EMERGENCY_PHONE_DISPLAY}`}
+                source="hero"
                 className="relative inline-flex min-h-[64px] items-center gap-3 rounded-full bg-cyan-500 px-10 py-5 text-lg font-bold text-slate-950 shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-[0_0_30px_rgba(6,182,212,0.5)]"
               >
                 <Phone className="h-6 w-6" aria-hidden="true" />

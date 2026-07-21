@@ -100,7 +100,10 @@ export default function CityViewClient({
             <h3 className="text-lg font-bold text-white">
               Besoin d&apos;un {metierLabel.toLowerCase()} à {villeLabel} ?
             </h3>
-            <PhoneLink className="mt-4 flex items-center gap-2 text-2xl font-black text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] transition-all hover:scale-105">
+            <PhoneLink
+              source="city_page"
+              className="mt-4 flex items-center gap-2 text-2xl font-black text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] transition-all hover:scale-105"
+            >
               <Phone className="h-6 w-6" />
               04 11 93 96 74
             </PhoneLink>

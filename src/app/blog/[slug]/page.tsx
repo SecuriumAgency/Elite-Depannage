@@ -102,7 +102,10 @@ export default async function BlogPostPage({
 
       <div className="mt-16 rounded-3xl border border-cyan-400/40 bg-gradient-to-br from-cyan-600 via-blue-600 to-blue-800 p-8 text-center shadow-[0_0_40px_rgba(34,211,238,0.3)]">
         <p className="text-lg font-bold text-white">Une urgence maintenant ?</p>
-        <PhoneLink className="mt-4 inline-flex items-center gap-2 text-3xl font-black text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] transition-all hover:scale-105">
+        <PhoneLink
+          source="blog_article"
+          className="mt-4 inline-flex items-center gap-2 text-3xl font-black text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.6)] transition-all hover:scale-105"
+        >
           <Phone className="h-7 w-7" />
           04 11 93 96 74
         </PhoneLink>

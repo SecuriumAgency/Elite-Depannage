@@ -87,6 +87,7 @@ export default async function ExpertisePage({
 
           <PhoneLink
             aria-label="Appeler Élite Dépannage 34"
+            source="expertise_page"
             className="mt-10 inline-flex min-h-[56px] items-center gap-3 rounded-full bg-cyan-500 px-8 py-4 text-base font-bold text-slate-950 shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-[0_0_40px_rgba(6,182,212,0.6)]"
           >
             <Phone className="h-5 w-5" />

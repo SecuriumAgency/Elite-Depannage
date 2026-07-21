@@ -3,23 +3,6 @@
 import { Phone } from "lucide-react";
 import PhoneLink from "@/components/ui/PhoneLink";
 
-declare global {
-  interface Window {
-    dataLayer: Record<string, unknown>[];
-  }
-}
-
-async function handleCallClick() {
-  if (typeof window !== "undefined") {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "generate_lead",
-      lead_type: "emergency_call",
-      tenant: "elite-depannage",
-    });
-  }
-}
-
 /**
  * Persistent thumb-zone CTA for mobile. Complements the header's compact
  * call icon (which sits behind a `fixed top-0` bar) with a full-width,
@@ -32,7 +15,7 @@ export default function StickyCallButton() {
       <PhoneLink
         aria-label="Urgence 24h/7j - Appeler le 04 11 93 96 74"
         className="flex w-full items-center justify-center gap-2 py-3.5 text-base font-black text-white uppercase tracking-wide"
-        onClick={handleCallClick}
+        source="sticky_bar"
       >
         <Phone className="h-5 w-5 shrink-0" />
         Urgence 24h/7j — Appeler maintenant

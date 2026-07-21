@@ -67,7 +67,8 @@ export default function Header() {
             <MagneticButton>
               <PhoneLink
                 aria-label="Urgence 30 min - Appeler le 04 11 93 96 74"
-                className="inline-flex h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-full bg-cyan-500 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] sm:h-auto sm:w-auto sm:px-5 sm:py-2.5"
+                source="header"
+                className="inline-flex h-12 w-12 shrink-0 items-center justify-center gap-2 rounded-full bg-cyan-500 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] sm:h-auto sm:w-auto sm:px-5 sm:py-2.5"
               >
                 <Phone className="h-5 w-5 sm:hidden" />
                 <span className="hidden sm:inline">Urgence 30 min</span>
@@ -79,7 +80,7 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
               aria-expanded={isMobileMenuOpen}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-all hover:border-cyan-400/50 hover:text-cyan-400 lg:hidden"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-all hover:border-cyan-400/50 hover:text-cyan-400 lg:hidden"
             >
               {isMobileMenuOpen ? (
                 <X className="h-6 w-6" />

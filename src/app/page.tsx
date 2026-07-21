@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -20,6 +21,7 @@ import PhoneLink from "@/components/ui/PhoneLink";
 import RevealHeading from "@/components/ui/RevealHeading";
 import { SEO_CITIES } from "@/lib/cities";
 import { BLOG_POSTS } from "@/lib/blog-content";
+import { pushDataLayerEvent } from "@/lib/dataLayer";
 
 const SERVICES = [
   {
@@ -77,6 +79,25 @@ const TESTIMONIALS = [
 ];
 
 export default function Home() {
+  const [quoteFormStatus, setQuoteFormStatus] = useState<"idle" | "sent">("idle");
+
+  function handleQuoteFormSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    pushDataLayerEvent({
+      event: "generate_lead",
+      lead_type: "quote_request",
+      tenant: "elite-depannage",
+      source: "home_quote_form",
+      urgency_type: formData.get("urgencyType") || undefined,
+    });
+    // NOTE: no backend wired up yet — this only tracks the lead and confirms
+    // to the visitor. Actual delivery (email/CRM/webhook) still needs an API
+    // route; without it, submissions here aren't received anywhere.
+    event.currentTarget.reset();
+    setQuoteFormStatus("sent");
+  }
+
   return (
     <main className="flex-1 overflow-x-hidden">
       {/* 1. HERO */}
@@ -185,7 +206,10 @@ export default function Home() {
               sans dégât inutile, avec un devis clair validé avant toute intervention.
             </p>
             <MagneticButton className="mt-8">
-              <PhoneLink className="inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]">
+              <PhoneLink
+                source="home_plumbing_section"
+                className="inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]"
+              >
                 <Phone className="h-4 w-4" />
                 Appeler un plombier
               </PhoneLink>
@@ -248,7 +272,10 @@ export default function Home() {
               tarif annoncé et respecté avant toute intervention.
             </p>
             <MagneticButton className="mt-8">
-              <PhoneLink className="inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]">
+              <PhoneLink
+                source="home_locksmith_section"
+                className="inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]"
+              >
                 <Phone className="h-4 w-4" />
                 Appeler un serrurier
               </PhoneLink>
@@ -392,46 +419,67 @@ export default function Home() {
             Un problème maintenant ? On vous rappelle.
           </RevealHeading>
 
-          <form className="mt-8 grid gap-4 sm:grid-cols-2">
-            <input
-              type="text"
-              placeholder="Nom"
-              aria-label="Nom"
-              className="rounded-xl border border-white/20 bg-black/50 px-4 py-3 text-base text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
-            />
-            <input
-              type="tel"
-              placeholder="Téléphone"
-              aria-label="Téléphone"
-              className="rounded-xl border border-white/20 bg-black/50 px-4 py-3 text-base text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
-            />
-            <input
-              type="text"
-              placeholder="Code Postal"
-              aria-label="Code Postal"
-              className="rounded-xl border border-white/20 bg-black/50 px-4 py-3 text-base text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
-            />
-            <select
-              aria-label="Type d'urgence"
-              className="rounded-xl border border-white/20 bg-black/50 px-4 py-3 text-base text-white outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
-              defaultValue=""
+          {quoteFormStatus === "sent" ? (
+            <p
+              role="status"
+              className="mt-8 flex items-center gap-3 rounded-xl border border-cyan-400/40 bg-cyan-500/10 px-4 py-4 text-base font-semibold text-cyan-100"
             >
-              <option value="" disabled>
-                Type d&apos;urgence
-              </option>
-              <option value="plomberie">Plomberie</option>
-              <option value="serrurerie">Serrurerie</option>
-            </select>
-            <MagneticButton className="sm:col-span-2 mt-2 block">
-              <button
-                type="submit"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-cyan-500 px-8 py-3.5 text-base font-bold text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(6,182,212,0.8)]"
+              <CheckCircle2 className="h-5 w-5 shrink-0 text-cyan-400" />
+              Demande reçue — un artisan vous rappelle sous 30 minutes.
+            </p>
+          ) : (
+            <form
+              onSubmit={handleQuoteFormSubmit}
+              className="mt-8 grid gap-4 sm:grid-cols-2"
+            >
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="Nom"
+                aria-label="Nom"
+                className="rounded-xl border border-white/20 bg-black/50 px-4 py-3 text-base text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+              />
+              <input
+                type="tel"
+                name="phone"
+                required
+                placeholder="Téléphone"
+                aria-label="Téléphone"
+                className="rounded-xl border border-white/20 bg-black/50 px-4 py-3 text-base text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+              />
+              <input
+                type="text"
+                name="postalCode"
+                required
+                placeholder="Code Postal"
+                aria-label="Code Postal"
+                className="rounded-xl border border-white/20 bg-black/50 px-4 py-3 text-base text-white outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+              />
+              <select
+                name="urgencyType"
+                required
+                aria-label="Type d'urgence"
+                className="rounded-xl border border-white/20 bg-black/50 px-4 py-3 text-base text-white outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+                defaultValue=""
               >
-                <Wrench className="h-4 w-4" />
-                Demander un rappel — 04 11 93 96 74
-              </button>
-            </MagneticButton>
-          </form>
+                <option value="" disabled>
+                  Type d&apos;urgence
+                </option>
+                <option value="plomberie">Plomberie</option>
+                <option value="serrurerie">Serrurerie</option>
+              </select>
+              <MagneticButton className="sm:col-span-2 mt-2 block">
+                <button
+                  type="submit"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-cyan-500 px-8 py-3.5 text-base font-bold text-slate-950 shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(6,182,212,0.8)]"
+                >
+                  <Wrench className="h-4 w-4" />
+                  Demander un rappel — 04 11 93 96 74
+                </button>
+              </MagneticButton>
+            </form>
+          )}
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-500">
             <span className="inline-flex items-center gap-1.5">
