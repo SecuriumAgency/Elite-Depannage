@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowLeft, Phone } from "lucide-react";
 import PhoneLink from "@/components/ui/PhoneLink";
 import { getSeoPages, type SeoPage } from "@/lib/notion";
-import { getBreadcrumbSchema } from "@/lib/schema";
+import { getBreadcrumbSchema, toJsonLdHtml } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 
 async function getPageBySlug(slug: string): Promise<SeoPage | null> {
@@ -68,7 +68,7 @@ export default async function ExpertisePage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: toJsonLdHtml(breadcrumbSchema) }}
       />
       <main className="mx-auto max-w-3xl px-4 py-24">
         <Link

@@ -6,7 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StickyCallButton from "@/components/ui/StickyCallButton";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
-import { getLocalBusinessSchema } from "@/lib/schema";
+import { getLocalBusinessSchema, toJsonLdHtml } from "@/lib/schema";
 import { GOOGLE_ADS_ID } from "@/lib/gtag";
 import { GTM_IDS, TenantDomain } from "@/lib/gtmConfig";
 import "./globals.css";
@@ -97,7 +97,7 @@ export default async function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getLocalBusinessSchema()),
+            __html: toJsonLdHtml(getLocalBusinessSchema()),
           }}
         />
         <Script

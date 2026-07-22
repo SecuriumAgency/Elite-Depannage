@@ -13,7 +13,7 @@ import {
   SECTIONS,
 } from "@/lib/seo-content";
 import CityViewClient from "@/components/CityViewClient";
-import { getBreadcrumbSchema, getServiceSchema } from "@/lib/schema";
+import { getBreadcrumbSchema, getServiceSchema, toJsonLdHtml } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -21,6 +21,15 @@ export function generateStaticParams() {
     SEO_CITIES.map((city) => ({ metier: metier.slug, ville: city.slug }))
   );
 }
+
+// Only the exact (metier, ville) combinations above are valid pages. Without
+// this, Next.js renders ANY slug on demand (dynamicParams defaults to true),
+// and getMetierLabel/getCityLabel fall back to echoing the raw, unvalidated
+// URL segment — which then flows into the JSON-LD <script> blocks below.
+// That's a reflected-XSS surface: a slug of `</script><script>...` survives
+// JSON.stringify intact and breaks out of the script tag in the browser's
+// HTML parser. Rejecting unknown params up front closes it at the boundary.
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
@@ -73,11 +82,11 @@ export default async function VillePage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        dangerouslySetInnerHTML={{ __html: toJsonLdHtml(serviceSchema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: toJsonLdHtml(breadcrumbSchema) }}
       />
       <CityViewClient
         metier={metier}

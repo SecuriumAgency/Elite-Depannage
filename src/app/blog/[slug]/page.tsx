@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ArrowLeft, Phone } from "lucide-react";
 import PhoneLink from "@/components/ui/PhoneLink";
 import { BLOG_POSTS, getBlogPostBySlug } from "@/lib/blog-content";
-import { getBreadcrumbSchema } from "@/lib/schema";
+import { getBreadcrumbSchema, toJsonLdHtml } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -63,7 +63,7 @@ export default async function BlogPostPage({
     <main className="mx-auto max-w-3xl px-4 py-24">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: toJsonLdHtml(breadcrumbSchema) }}
       />
       <Link
         href="/#blog"

@@ -100,3 +100,16 @@ export function getBreadcrumbSchema(pageName: string, path: string) {
     ],
   };
 }
+
+/**
+ * Serializes a JSON-LD object for `<script type="application/ld+json">
+ * dangerouslySetInnerHTML`. JSON.stringify alone is not safe here: the
+ * browser's HTML tokenizer looks for a literal `</script` byte sequence
+ * regardless of JS/JSON string-escaping, so any field built from
+ * user-influenced text (URL slugs, CMS content) can close the script tag
+ * early and inject live markup. Unicode-escaping every angle bracket
+ * neutralizes that while staying valid, semantically identical JSON.
+ */
+export function toJsonLdHtml(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
