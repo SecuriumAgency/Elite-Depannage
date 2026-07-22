@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowLeft, Phone } from "lucide-react";
 import PhoneLink from "@/components/ui/PhoneLink";
 import { BLOG_POSTS, getBlogPostBySlug } from "@/lib/blog-content";
+import { getBreadcrumbSchema } from "@/lib/schema";
 import { SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -29,6 +30,7 @@ export async function generateMetadata({
     title: post.title,
     description: post.excerpt,
     alternates: {
+      canonical: `${SITE_URL}/blog/${slug}`,
       types: { "text/markdown": `${SITE_URL}/blog/${slug}/markdown` },
     },
     openGraph: {
@@ -55,8 +57,14 @@ export default async function BlogPostPage({
   const post = getBlogPostBySlug(slug);
   if (!post) notFound();
 
+  const breadcrumbSchema = getBreadcrumbSchema(post.title, `/blog/${slug}`);
+
   return (
     <main className="mx-auto max-w-3xl px-4 py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Link
         href="/#blog"
         className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-400 transition-all hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]"

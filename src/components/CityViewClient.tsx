@@ -72,7 +72,7 @@ export default function CityViewClient({
             <div className="relative h-64 w-full overflow-hidden rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
               <Image
                 src={section.image}
-                alt={section.title}
+                alt={`${metierLabel} à ${villeLabel} — ${section.title}`}
                 fill
                 className="object-cover"
               />

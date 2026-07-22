@@ -1,7 +1,7 @@
 import { SEO_CITIES, type Metier } from "@/lib/cities";
-import { SITE_DESCRIPTION } from "@/lib/site";
+import { SITE_DESCRIPTION, SITE_URL as BASE_URL } from "@/lib/site";
+import { TESTIMONIALS } from "@/lib/testimonials";
 
-const BASE_URL = "https://www.elite-depannage-34.fr";
 const PHONE = "+33411939674";
 const NAME = "Élite Dépannage 34";
 
@@ -40,6 +40,25 @@ export function getLocalBusinessSchema() {
       opens: "00:00",
       closes: "23:59",
     },
+    // Sourced from the testimonials visibly displayed in the #avis section on
+    // the home page — Google requires review markup to reflect on-page content.
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: (
+        TESTIMONIALS.reduce((sum, t) => sum + t.rating, 0) / TESTIMONIALS.length
+      ).toFixed(1),
+      reviewCount: TESTIMONIALS.length,
+    },
+    review: TESTIMONIALS.map((t) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: t.name },
+      reviewBody: t.text,
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: t.rating,
+        bestRating: 5,
+      },
+    })),
   };
 }
 

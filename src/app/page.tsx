@@ -20,6 +20,7 @@ import PhoneLink from "@/components/ui/PhoneLink";
 import RevealHeading from "@/components/ui/RevealHeading";
 import { SEO_CITIES } from "@/lib/cities";
 import { BLOG_POSTS } from "@/lib/blog-content";
+import { TESTIMONIALS } from "@/lib/testimonials";
 
 const SERVICES = [
   {
@@ -56,24 +57,6 @@ const KPIS = [
   { value: "+ de 500", label: "interventions", z: 30, offset: 0 },
   { value: "100%", label: "satisfaction", z: 20, offset: 16 },
   { value: "< 30 min", label: "intervention", z: 10, offset: 32 },
-];
-
-const TESTIMONIALS = [
-  {
-    name: "Sophie M.",
-    city: "Montpellier",
-    text: "Intervention en moins de 30 minutes pour une fuite qui inondait ma cuisine. Travail propre et tarif annoncé respecté.",
-  },
-  {
-    name: "Karim B.",
-    city: "Béziers",
-    text: "Porte claquée un dimanche soir, le serrurier était sur place très rapidement et sans dégâts sur la serrure.",
-  },
-  {
-    name: "Laurence T.",
-    city: "Sète",
-    text: "Chauffe-eau en panne remplacé en urgence un dimanche. Équipe sérieuse, devis gratuit et clair avant toute intervention.",
-  },
 ];
 
 export default function Home() {

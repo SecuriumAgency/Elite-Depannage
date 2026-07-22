@@ -1,10 +1,8 @@
 import type { MetadataRoute } from "next";
 import { METIERS, SEO_CITIES } from "@/lib/cities";
 import { BLOG_POSTS } from "@/lib/blog-content";
-import { LEGAL_PAGES } from "@/lib/legal-content";
 import { getSeoPages } from "@/lib/notion";
-
-const BASE_URL = "https://www.elite-depannage-34.fr";
+import { SITE_URL as BASE_URL } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const buildDate = new Date();
@@ -46,13 +44,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  const legalRoutes: MetadataRoute.Sitemap = LEGAL_PAGES.map((page) => ({
-    url: `${BASE_URL}/legal/${page.slug}`,
-    lastModified: buildDate,
-    changeFrequency: "yearly",
-    priority: 0.2,
-  }));
-
+  // Legal pages are `noindex` (see legal/[slug]/page.tsx) and intentionally
+  // excluded from the sitemap — listing a noindex URL as sitemap-worthy sends
+  // Google a contradictory signal.
   const seoPages = await getSeoPages();
   const expertiseRoutes: MetadataRoute.Sitemap = seoPages.map((page) => ({
     url: `${BASE_URL}/expertises/${page.slug}`,
@@ -61,5 +55,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...villeRoutes, ...blogRoutes, ...legalRoutes, ...expertiseRoutes];
+  return [...staticRoutes, ...villeRoutes, ...blogRoutes, ...expertiseRoutes];
 }

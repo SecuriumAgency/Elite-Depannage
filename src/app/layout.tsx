@@ -29,6 +29,7 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   alternates: {
+    canonical: SITE_URL,
     types: { "text/markdown": `${SITE_URL}/markdown` },
   },
   openGraph: {
